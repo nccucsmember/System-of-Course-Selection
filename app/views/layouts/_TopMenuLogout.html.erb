@@ -1,0 +1,16 @@
+<div style="height:37px; width: 100%;"></div>
+<nav class="ui borderless menu fixed">
+  <div class="ui container">
+    <a class="brand item" href="/index"><%= image_tag("NCCU.png") %></a>
+
+
+    <div class="right menu">
+
+      <%= link_to "登入", new_user_session_path, class: "item" %>
+
+      <%= link_to "註冊", new_user_registration_path, class: "item" %>
+
+    </div>
+
+  </div>
+</nav>

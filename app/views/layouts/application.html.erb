@@ -4,17 +4,47 @@
     <title>SystemOfCourseSelection</title>
     <%= csrf_meta_tags %>
 
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-
-
   </head>
 
-  <body>
+  <body class="default">
+
+    <div class="pusher">
+      <div id="content">
+
+        <% if user_signed_in? %>
+            <%= render 'layouts/TopMenu' %>
+        <% else %>
+            <%= render 'layouts/TopMenuLogout' %>
+        <% end %>
+
+        <div class="ui vertical stripe segment">
+          <div class="ui container">
+            <h1 class="ui header">
+              Course System
+              <div class="sub header">
+                software engineering project
+              </div>
+            </h1>
+          </div>
+        </div>
+
+        <div class="ui vertical stripe segment">
+          <div class="ui divided relaxed grid stackable container">
+            <div class="row">
+              <%= yield :mainbody %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
     <%= yield %>
+
   </body>
+
 </html>

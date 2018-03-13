@@ -1,0 +1,40 @@
+<div style="height: 60px; width: 100%;"></div>
+<nav class="ui borderless menu fixed shadow">
+  <div class="ui container">
+    <a class="brand item" href="/index">
+      <%= image_tag("NCCU.png") %>
+    </a>
+    <div class="ui remote search item">
+      <div class="ui icon input">
+        <input class="prompt" placeholder="Remote search..." type="text" autocomplete="off">
+      </div>
+      <div class="results"></div>
+    </div>
+
+
+    <div class="right menu">
+
+      <% if user_signed_in? %>
+        <!-- insert name-->
+      <% end %>
+
+      <div class="ui dropdown item">
+        <div class="text">功能</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <a class="item" href="#">
+            選課管理
+          </a>
+          <a class="item" href="#">
+            使用者控制
+          </a>
+          <div class="divider"></div>
+          <%= link_to destroy_user_session_path, method: :delete, class: "item" do %>
+            登出
+          <% end %>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</nav>
