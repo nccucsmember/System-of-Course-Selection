@@ -1,7 +1,8 @@
-<h2>Forgot your password?</h2>
+<%= content_for :mainbody do %>
+  <article class="five wide column">
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post ,:class => 'ui form'}) do |f| %>
+  <h2 class="ui header">Forgot your password?</h2>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= devise_error_messages! %>
 
   <div class="field">
     <%= f.label :email %><br />
@@ -9,8 +10,14 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
+    <%= f.submit "Send me reset password instructions" ,:class => 'ui button' %>
   </div>
 <% end %>
+  </article>
+  <aside class="four wide column">
+    <div class="ui vertical fluid menu rightMenu">
+      <%= render "devise/shared/links" %>
+    </div>
+  </aside>
 
-<%= render "devise/shared/links" %>
+<% end %>

@@ -15,18 +15,24 @@
     <div class="right menu">
 
       <% if user_signed_in? %>
-        <!-- insert name-->
+        <a class="item">
+          <% @info = PersonalInfor.find_by_schoolid(current_user.schoolid) %>
+          <%= @info.name %>
+        </a>
       <% end %>
 
       <div class="ui dropdown item">
         <div class="text">功能</div>
         <i class="dropdown icon"></i>
         <div class="menu">
-          <a class="item" href="#">
+          <a class="item" href="/managecourse">
             選課管理
           </a>
-          <a class="item" href="#">
-            使用者控制
+          <a class="item" href="/info/index">
+            個人資料
+          </a>
+          <a class="item" href="/users/edit">
+            修改帳戶
           </a>
           <div class="divider"></div>
           <%= link_to destroy_user_session_path, method: :delete, class: "item" do %>
@@ -38,3 +44,5 @@
     </div>
   </div>
 </nav>
+
+<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>

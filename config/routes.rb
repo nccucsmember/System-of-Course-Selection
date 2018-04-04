@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   get "index/welcome" => "index#welcome"
   get "index" => "index#main"
 
+  resources :managecourse, :controller => 'managecourse'
+  resources :info, :controller => 'info'
+
   root :to => "index#main"
 
 end

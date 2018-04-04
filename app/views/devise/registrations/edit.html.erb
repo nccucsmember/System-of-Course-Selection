@@ -1,7 +1,9 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<%= content_for :mainbody do %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <article class="five wide column">
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, :class => 'ui form'}) do |f| %>
 
+  <h2 class="ui header">Edit <%= resource_name.to_s.humanize %></h2>
 
   <div class="field">
     <%= f.label :email %><br />
@@ -32,12 +34,15 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "Update" %>
+    <%= f.submit "Update", :class => 'ui button' %>
   </div>
 <% end %>
 
-<h3>Cancel my account</h3>
+  </article>
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+  <aside class="four wide column">
+    <h3 class="ui header">Cancel my account</h3>
+    <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, :class => 'ui red button'%></p>
+  </aside>
 
-<%= link_to "Back", :back %>
+<% end %>
