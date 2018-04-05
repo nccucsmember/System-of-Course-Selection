@@ -16,8 +16,10 @@
 
       <% if user_signed_in? %>
         <a class="item">
-          <% @info = PersonalInfor.find_by_schoolid(current_user.schoolid) %>
-          <%= @info.name %>
+          <% if PersonalInfor.exists?(:schoolid => current_user.schoolid)  %>
+            <% @info = PersonalInfor.find_by_schoolid(current_user.schoolid) %>
+            <%= @info.name %>
+          <% end %>
         </a>
       <% end %>
 

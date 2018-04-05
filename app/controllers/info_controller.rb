@@ -2,7 +2,7 @@ class InfoController < ApplicationController
   layout "application"
 
   def index
-      render "layouts/info"
+
   end
 
   def edit
@@ -11,7 +11,11 @@ class InfoController < ApplicationController
 
   def show
       @info = PersonalInfor.find_by_schoolid(current_user.schoolid)
-      render "layouts/info"
+      if @info != nil
+          render "info"
+      else
+          render "info_create"
+      end
   end
 
 end

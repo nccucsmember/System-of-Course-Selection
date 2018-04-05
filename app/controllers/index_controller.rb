@@ -1,7 +1,8 @@
 class IndexController < ApplicationController
-    
+
+
     layout "application"
-    
+
     def welcome
 
     end
@@ -14,8 +15,10 @@ class IndexController < ApplicationController
             format.html
           end
       else
-        
-      end  
+
+      end
     end
+
+
 
 end
