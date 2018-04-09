@@ -3,7 +3,7 @@ class ManagecourseController < ApplicationController
   layout "application"
 
   def index
-     render "layouts/managecourse"
+     render "managecourse/managecourse"
   end
 
   def show
