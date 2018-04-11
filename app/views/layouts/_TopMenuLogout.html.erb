@@ -1,7 +1,15 @@
 <div style="height:37px; width: 100%;"></div>
 <nav class="ui borderless menu fixed">
   <div class="ui container">
-    <a class="brand item" href="/index"><%= image_tag("NCCU.png") %></a>
+    <a class="brand item" href="/index">
+      <%= image_tag("NCCU.png") %>
+    </a>
+    <div class="ui remote search item">
+      <div class="ui icon input">
+        <input class="prompt" placeholder="Remote search..." type="text" autocomplete="off">
+      </div>
+      <div class="results"></div>
+    </div>
 
 
     <div class="right menu">

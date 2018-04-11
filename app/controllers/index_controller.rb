@@ -3,11 +3,10 @@ class IndexController < ApplicationController
 
     layout "application"
 
-    def welcome
-
-    end
-
     def main
+
+      @courses = Coursedetail.all
+
       if user_signed_in?
           @info = PersonalInfor.find_by_schoolid(current_user.schoolid)
           respond_to do |format|
@@ -17,6 +16,8 @@ class IndexController < ApplicationController
       else
 
       end
+
+
     end
 
 

@@ -10,12 +10,20 @@ class InfoController < ApplicationController
   end
 
   def show
-      @info = PersonalInfor.find_by_schoolid(current_user.schoolid)
+
+    if user_signed_in? and current_user.schoolid == params[:id]
+
+      @info = PersonalInfor.find_by_schoolid(params[:id])
       if @info != nil
           render "info"
       else
           render "info_create"
       end
+
+    else
+      redirect_to root_path
+    end
+
   end
 
 end

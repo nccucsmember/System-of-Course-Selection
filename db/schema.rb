@@ -10,7 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180404182019) do
+ActiveRecord::Schema.define(version: 20180411180239) do
+
+  create_table "coursedetails", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "course_id", null: false
+    t.string "course_semester", null: false
+    t.string "course_subject_id", null: false
+    t.string "course_name_ch"
+    t.string "course_name_en"
+    t.string "course_teacher"
+    t.integer "course_credit"
+    t.time "course_begin_time"
+    t.time "course_end_time"
+    t.string "course_weekday"
+    t.string "location_id"
+    t.integer "course_maxnum"
+    t.string "course_grad"
+    t.string "general_category"
+    t.boolean "central_general"
+  end
 
   create_table "personal_infors", primary_key: "schoolid", id: :string, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "name"

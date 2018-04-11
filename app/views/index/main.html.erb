@@ -1,23 +1,17 @@
-
-<p>Hola! It's <%= Time.now %></p>
-<p><%= link_to 'Hello!', index_welcome_path %></p>
-
 <%= content_for :mainbody do %>
 
   <!--Left-->
   <article class="twelve wide column">
     <div class="ui tab active" data-tab="bootstrap">
       <h2 class="ui dividing header">
-        Using the framework
+        課程清單
       </h2>
       <div class="ui two stackable doubling cards" style="margin-top: 0.875rem !important">
+        <% @courses.each do |course| %>
         <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
           <div class="content">
             <div class="header">
-              Starter template
+              <%= course.course_name_ch %>
             </div>
             <div class="description">
               Nothing but the basics: compiled CSS and JavaScript along with a container.
@@ -29,80 +23,10 @@
             </div>
           </div>
         </div>
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Bootstrap theme
-            </div>
-            <div class="description">
-              Load the optional Bootstrap theme for a visually enhanced experience.
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Grids
-            </div>
-            <div class="description">
-              Multiple examples of grid layouts with all three tiers, nesting, stackable and more.
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Jumbotron
-            </div>
-            <div class="description">
-              Build around the jumbotron with a navbar and some basic grid columns.
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Narrow jumbotron
-            </div>
-            <div class="description">
-              Build a more custom page by narrowing the default container and jumbotron.
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-      </div>
+        <% end %>
+
       <div class="ui hidden divider"></div>
+      <!--
       <h2 class="ui dividing header">
         Navbars in action
       </h2>
@@ -434,6 +358,7 @@
         </div>
       </div>
     </div>
+  -->
   </article>
 
   <!-- Right-->
