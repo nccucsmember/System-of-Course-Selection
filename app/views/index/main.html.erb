@@ -14,358 +14,100 @@
               <%= course.course_name_ch %>
             </div>
             <div class="description">
-              Nothing but the basics: compiled CSS and JavaScript along with a container.
+              <%= course.course_teacher %> / <%= course.course_weekday %>
+              <%if course.course_begin_time == nil %>
+                <%= '彈性時間' %>
+              <%else %>
+                <%= course.course_begin_time.strftime("%H:%M") %>
+              <% end %>
+              -
+              <%if course.course_end_time == nil %>
+                <%= '彈性時間' %>
+              <%else %>
+                <%= course.course_end_time.strftime("%H:%M") %>
+              <% end %>
             </div>
           </div>
           <div class="extra content">
             <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
+              <a class="ui button item" href="#">課程內容</a><a class="ui button item" href="#">加入追蹤清單</a>
             </div>
           </div>
         </div>
         <% end %>
-
       <div class="ui hidden divider"></div>
-      <!--
-      <h2 class="ui dividing header">
-        Navbars in action
-      </h2>
-      <div class="ui two stackable doubling cards">
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Navbar
-            </div>
-            <div class="description">
-              Super basic template that includes the navbar along with some additional content.
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Static top navbar
-            </div>
-            <div class="description">
-              Super basic template with a static top navbar along with some additional content.
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Fixed navbar
-            </div>
-            <div class="description">
-              Super basic template with a fixed top navbar along with some additional content.
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="ui hidden divider"></div>
-      <h2 class="ui dividing header">
-        Custom components
-      </h2>
-      <div class="ui two stackable doubling cards">
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Cover
-            </div>
-            <div class="description">
-              A one-page template for building simple and beautiful home pages.
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Carousel
-            </div>
-            <div class="description">
-              Customize the navbar and carousel, then add some new components.
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Blog
-            </div>
-            <div class="description">
-              Simple two-column blog layout with custom navigation, header, and type.
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Dashboard
-            </div>
-            <div class="description">
-              Basic structure for an admin dashboard with fixed sidebar and navbar.
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Sign-in page
-            </div>
-            <div class="description">
-              Custom form layout and design for a simple sign in form with validation.
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Justified nav
-            </div>
-            <div class="description">
-              Create a custom navbar with justified links. Heads up!
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Sticky footer
-            </div>
-            <div class="description">
-              Attach a footer to the bottom of the viewport when the content is shorter than it.
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Sticky footer with navbar
-            </div>
-            <div class="description">
-              Attach a footer to the bottom of the viewport with a fixed navbar at the top.
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="ui hidden divider"></div>
-      <h2 class="ui dividing header">
-        Experiments
-      </h2>
-      <div class="ui two stackable doubling cards">
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Non responsive Semantic-UI
-            </div>
-            <div class="description">
-              Easily disable the responsiveness of Semantic-UI.
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Off-canvas
-            </div>
-            <div class="description">
-              Build toggleable off-canvas navigation menus from all four sides for use with Semantic-UI.
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="ui tab" data-tab="semantic-ui">
-      <h2 class="ui dividing header">
-        Pages
-      </h2>
-      <div class="ui two stackable doubling cards" style="margin-top: 0.875rem !important">
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Homepage
-            </div>
-            <div class="description">
-              A simple responsive homepage design with sidebar
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Sticky Menus
-            </div>
-            <div class="description">
-              Using visibility API to fix content after passing position in page
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"></a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Fixed Menu
-            </div>
-            <div class="description">
-              Using a fixed menu with page content
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-        <div class="ui raised link card">
-          <div class="image">
-            <a href="#"><</a>
-          </div>
-          <div class="content">
-            <div class="header">
-              Login Form
-            </div>
-            <div class="description">
-              A full-screen login form
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="ui two item menu">
-              <a class="ui button item" href="#">Preview</a><a class="ui button item" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  -->
   </article>
 
   <!-- Right-->
   <aside class="four wide column">
-    <div class="ui vertical fluid menu rightMenu">
-      <a class="item active" data-tab="bootstrap">Bootstrap</a>
-      <a class="item" data-tab="semantic-ui">Semantic-UI</a>
+
+    <div class="ui buttons" style="margin:5px 0 6px 0;">
+      <div class="ui vertical grey animated button" tabindex="0">
+        <div class="visible content">整開/通識</div>
+        <div class="hidden content">General Course</div>
+      </div>
+      <div class="ui vertical grey animated button" tabindex="0">
+        <div class="visible content">體育/服務學習</div>
+        <div class="hidden content">Physical/Service</div>
+      </div>
+    </div>
+    <div style="margin:5px 0 6px 0;">
+      <div class="ui vertical green animated button" tabindex="0">
+        <div class="visible content">理學院</div>
+        <div class="hidden content">Science</div>
+      </div>
+      <div class="ui vertical red animated button" tabindex="0">
+        <div class="visible content">外語學院</div>
+        <div class="hidden content">Foreign Lang.</div>
+      </div>
+    </div>
+    <div style="margin:5px 0 6px 0;">
+      <div class="ui vertical orange animated button" tabindex="0">
+        <div class="visible content">文學院</div>
+        <div class="hidden content">Liberal Arts</div>
+      </div>
+      <div class="ui vertical teal animated button" tabindex="0">
+        <div class="visible content">社會科學學院</div>
+        <div class="hidden content">Social Science</div>
+      </div>
+    </div>
+    <div style="margin:5px 0 6px 0;">
+      <div class="ui vertical yellow animated button" tabindex="0">
+        <div class="visible content">商學院</div>
+        <div class="hidden content">Commerce</div>
+      </div>
+      <div class="ui vertical olive animated button" tabindex="0">
+        <div class="visible content">傳播學院</div>
+        <div class="hidden content">Comm.</div>
+      </div>
+    </div>
+    <div style="margin:5px 0 6px 0;">
+      <div class="ui vertical brown animated button" tabindex="0">
+        <div class="visible content">法學院</div>
+        <div class="hidden content">Law</div>
+      </div>
+      <div class="ui vertical blue animated button" tabindex="0">
+        <div class="visible content">國際事務學院</div>
+        <div class="hidden content">Int'l Affairs</div>
+      </div>
+    </div>
+    <div style="margin:5px 0 6px 0;">
+      <div class="ui vertical pink animated button" tabindex="0">
+        <div class="visible content">教育學院</div>
+        <div class="hidden content">Education</div>
+      </div>
+    </div>
+    <div class="column" style="margin:5px 0 6px 0;">
+      <div class="ui segments">
+        <div class="ui red segment">Monday</div>
+        <div class="ui blue segment">Tuesday</div>
+        <div class="ui green segment">Wednesday</div>
+        <div class="ui violet segment">Thursday</div>
+        <div class="ui orange segment">Friday</div>
+        <div class="ui olive segment">Saturday</div>
+        <div class="ui brown segment">Sunday</div>
+        <div class="ui purple segment">彈性</div>
+      </div>
     </div>
   </aside>
 
