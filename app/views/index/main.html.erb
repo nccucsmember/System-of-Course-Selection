@@ -30,7 +30,10 @@
           </div>
           <div class="extra content">
             <div class="ui two item menu">
-              <a class="ui button item" href="#">課程內容</a><a class="ui button item" href="#">加入追蹤清單</a>
+              <a class="ui button item" href="#">課程內容</a>
+              <% if user_signed_in? %>
+                <%= link_to "加入追蹤清單", {:controller => 'managecourse', :action => 'update', :id => course.course_id }, {class: "ui button item", :method => :patch } %>
+              <% end %>
             </div>
           </div>
         </div>
