@@ -14,7 +14,9 @@ class IndexController < ApplicationController
             format.html
           end
       else
-
+          respond_to do |format|
+            format.json { render :json => {:user => @info, :courses => @courses }}
+          end
       end
 
 

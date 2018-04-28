@@ -10,10 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180411180239) do
+ActiveRecord::Schema.define(version: 20180428165808) do
 
-  create_table "coursedetails", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.string "course_id", null: false
+  create_table "coursedetails", primary_key: "course_id", id: :string, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "course_semester", null: false
     t.string "course_subject_id", null: false
     t.string "course_name_ch"
@@ -24,10 +23,12 @@ ActiveRecord::Schema.define(version: 20180411180239) do
     t.time "course_end_time"
     t.string "course_weekday"
     t.string "location_id"
-    t.integer "course_maxnum"
-    t.string "course_grad"
+    t.string "course_dept"
+    t.string "course_type", limit: 1
     t.string "general_category"
     t.boolean "central_general"
+    t.integer "course_maxnum"
+    t.index ["course_id"], name: "coursedetails_course_id_index"
   end
 
   create_table "personal_infors", primary_key: "schoolid", id: :string, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -52,6 +53,8 @@ ActiveRecord::Schema.define(version: 20180411180239) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "schoolid", null: false
+    t.string "authentication_token"
+    t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["schoolid"], name: "users_schoolid_pk", unique: true
