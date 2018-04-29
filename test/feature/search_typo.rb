@@ -4,7 +4,7 @@ require "matrix"
 name_lst = ["中文", "資料庫", "資料科學", "經濟學", "銀行貨幣學", "運動代表隊"]
 
 #test query
-q = "資料"
+q = "y資料"
 
 # Build unique character lst
 character_lst = []
@@ -35,9 +35,13 @@ end
 
 def corpus_penalty(q, character_lst)
 	original_len = q.size
-	vaild_len = 0
-	q.split("").each{ |c| if character_lst.include? c; vaild_len += 1; end}
-	return (vaild_len / original_len)
+	valid_len = 0
+	q.split("").each{ |c| if character_lst.include? c; valid_len += 1; end}
+	#printf "valid_len: %d", valid_len
+	smoothing = 5
+	valid_len += smoothing
+	original_len += smoothing
+	return (valid_len.to_f / original_len.to_f)
 end
 
 def vectorize_tf(string, character_lst, index_mapping)
@@ -46,16 +50,24 @@ def vectorize_tf(string, character_lst, index_mapping)
 	return Vector.elements(tmp_vec_lst)
 end
 
+
+#query clean
+printf "Original Query: %s\n", q
+penal = corpus_penalty(q, character_lst)
+tmp_q = ""
+q.split("").each {|c| if character_lst.include? c; tmp_q << c; end}
+q = tmp_q
+
+
 v2 = vectorize_tf(q, character_lst, index_mapping)
 dt_score = {}
-penal = corpus_penalty(q, character_lst)
 name_lst.each do |word|
 	dt_score[word] = sim_cosine(vectorize_tf(word, character_lst, index_mapping), v2) * penal
 	#printf "%s: %.6f\n", word, sim_cosine(vectorize_tf(word, character_lst, index_mapping), v2)
 end
 
 
-printf "Query: %s\n", q
+printf "Cleaned Query: %s\npenalty: %.5f\n\n", q, penal
 dt_score.each do |k, val|
 	printf "%s:   %.4f\n", k, val
 end
