@@ -33,6 +33,13 @@ def sim_cosine(v1, v2)
 	return v1.dot(v2)
 end
 
+def corpus_penalty(q, character_lst)
+	original_len = q.size
+	vaild_len = 0
+	q.split("").each{ |c| if character_lst.include? c; vaild_len += 1; end}
+	return (vaild_len / original_len)
+end
+
 def vectorize_tf(string, character_lst, index_mapping)
 	tmp_vec_lst = Array.new( character_lst.size, 0 )
 	string.split("").each { |c| tmp_vec_lst[index_mapping[c]] += 1 }
@@ -40,9 +47,17 @@ def vectorize_tf(string, character_lst, index_mapping)
 end
 
 v2 = vectorize_tf(q, character_lst, index_mapping)
-printf "Query: %s\n", q
+dt_score = {}
+penal = corpus_penalty(q, character_lst)
 name_lst.each do |word|
-	printf "%s: %.6f\n", word, sim_cosine(vectorize_tf(word, character_lst, index_mapping), v2)
+	dt_score[word] = sim_cosine(vectorize_tf(word, character_lst, index_mapping), v2) * penal
+	#printf "%s: %.6f\n", word, sim_cosine(vectorize_tf(word, character_lst, index_mapping), v2)
+end
+
+
+printf "Query: %s\n", q
+dt_score.each do |k, val|
+	printf "%s:   %.4f\n", k, val
 end
 
 
