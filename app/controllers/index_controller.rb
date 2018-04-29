@@ -7,21 +7,10 @@ class IndexController < ApplicationController
 
       @courses = Coursedetail.all
 
-      if user_signed_in?
-          @info = PersonalInfor.find_by_schoolid(current_user.schoolid)
-          respond_to do |format|
-            format.json { render :json => {:user => @info, :courses => @courses }}
+      respond_to do |format|
+            format.json { render :json => {:courses => @courses }}
             format.html
-          end
-      else
-          respond_to do |format|
-            format.json { render :json => {:user => @info, :courses => @courses }}
-          end
       end
-
-
     end
-
-
 
 end
