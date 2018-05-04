@@ -1,0 +1,2 @@
+class Ta < ApplicationRecord
+end
