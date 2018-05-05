@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180504110602) do
+ActiveRecord::Schema.define(version: 20180505075423) do
+
+  create_table "chooses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "course_id", null: false
+    t.string "student_id", null: false
+  end
 
   create_table "coursedetails", primary_key: "course_id", id: :string, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "course_semester", null: false
@@ -31,8 +38,7 @@ ActiveRecord::Schema.define(version: 20180504110602) do
     t.index ["course_id"], name: "coursedetails_course_id_index"
   end
 
-  create_table "courses", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.string "course_id", null: false
+  create_table "courses", primary_key: "course_id", id: :string, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "semester", null: false
     t.string "subject_id", null: false
     t.string "num_semesters"
@@ -62,8 +68,14 @@ ActiveRecord::Schema.define(version: 20180504110602) do
     t.index ["schoolid"], name: "index_personal_infors_on_schoolid"
   end
 
-  create_table "ta", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.string "TA_id", null: false
+  create_table "students", primary_key: "student_id", id: :string, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "name", null: false
+    t.string "email", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tas", primary_key: "TA_id", id: :string, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "name", null: false
     t.string "email", null: false
     t.datetime "created_at", null: false
