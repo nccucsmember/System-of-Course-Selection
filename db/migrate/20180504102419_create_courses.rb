@@ -19,7 +19,7 @@ class CreateCourses < ActiveRecord::Migration[5.1]
     	t.boolean :central_general
 	    t.integer :course_maxnum
 
-		t.string :TA_id, :null => false
+		t.string :TA_id, :null => false # foreign key to TA.TA_id
       t.timestamps
     end
   end

@@ -8,8 +8,6 @@ class CreateTa < ActiveRecord::Migration[5.1]
       t.timestamps
     end
 
-	#change_column :course, :TA_id, :string
-	#add_index :course, :TA_id
 
   end
 end
