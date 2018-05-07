@@ -12,8 +12,12 @@ class ManagecourseController < ApplicationController
 
   def update
 
-     @course = Coursedetail.find(params[:id])
-     Rails.logger.debug(@course.course_teacher)
+    # request.headers["HTTP_AUTHORIZATION"] -- get user's auth_token
+    # params["id"] -- get course_id
+    myhash = { :id => params["id"], :auth_token => request.headers["HTTP_AUTHORIZATION"]}
+    @user = User.find_by_authentication_token(request.headers["HTTP_AUTHORIZATION"])
+
+    render :json => {:schoolid => @user.schoolid}
 
   end
 
