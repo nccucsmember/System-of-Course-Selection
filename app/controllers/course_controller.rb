@@ -1,5 +1,5 @@
 class CourseController < ApplicationController
-
+  
   def index
 
     hash = {}
