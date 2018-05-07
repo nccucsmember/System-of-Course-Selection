@@ -94,7 +94,10 @@ class FeatureController < ApplicationController
         end
       end
     else
-      re_lst = @like_result
+      @like_result.each do |dic|
+        re_lst.push(dic['course_name_ch'])
+      end
+      
     end
     render :json => re_lst
 
