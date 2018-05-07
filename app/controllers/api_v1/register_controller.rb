@@ -33,7 +33,7 @@ class ApiV1::RegisterController < ApplicationController
         #  redirect_to @user
         #}
         #format.html { redirect_to @user }
-        format.json { render :json, status: :created, location: @user }
+        format.json { render json: {:status => 'ok'}}
       else
         #format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }

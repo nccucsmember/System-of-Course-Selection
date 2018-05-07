@@ -17,6 +17,7 @@ class ManagecourseController < ApplicationController
     myhash = { :id => params["id"], :auth_token => request.headers["HTTP_AUTHORIZATION"]}
     @user = User.find_by_authentication_token(request.headers["HTTP_AUTHORIZATION"])
 
+    
     render :json => {:schoolid => @user.schoolid}
 
   end
