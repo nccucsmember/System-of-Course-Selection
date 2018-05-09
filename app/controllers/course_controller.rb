@@ -1,14 +1,16 @@
 class CourseController < ApplicationController
-
+  
   def index
 
     hash = {}
+    @course = Coursedetail.all
 
     if params[:zh] != nil
-      hash[:course_name_ch] = params[:zh]
+      @course = @course.where("course_name_ch LIKE ?", "%#{params[:zh]}%")
     end
+
     if params[:en] != nil
-      hash[:course_name_en] = params[:en]
+      @course = @course.where("course_name_en LIKE ?", "%#{params[:en]}%")
     end
     if params[:sub] != nil
       hash[:course_subject_id] = params[:sub]
@@ -27,11 +29,17 @@ class CourseController < ApplicationController
       hash[:course_weekday] = params[:weekday]
     end
 
-    if params[:limit] != nil
-      @course = Coursedetail.where(hash).limit(params[:limit])
+
+    if params[:limit] != nil and params[:offset] != nil
+      @course = @course.where(hash).limit(params[:limit]).offset(params[:limit])
+    elsif params[:limit] != nil
+      @course = @course.where(hash).limit(params[:limit])
+    elsif params[:offset] != nil
+      @course = @course.where(hash).offset(params[:limit])
     else
-      @course = Coursedetail.where(hash)
+      @course = @course.where(hash)
     end
+
     render :json => @course
 
   end

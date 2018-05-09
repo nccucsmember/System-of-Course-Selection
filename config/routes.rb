@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   scope :path => '/api/v1/', :module => "api_v1", :as => 'v1', :defaults => { :format => :json } do
     post "login" => "auth#login"
     post "logout" => "auth#logout"
+    post "register" => "register#create", :as => 'user'
   end
 
   get "index" => "index#main"
@@ -12,6 +13,8 @@ Rails.application.routes.draw do
   resources :managecourse, :controller => 'managecourse'
   resources :info, :controller => 'info'
   resources :course, :controller => 'course'
+
+  get "feature/search/:query" => "feature#search"
 
   root :to => "index#main"
 

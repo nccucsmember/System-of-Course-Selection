@@ -1,6 +1,7 @@
 require "matrix"
 
 # Name_lst is an input from db ( all courses' names )
+## Coursedetail.select(:course_name_ch).distinct
 name_lst = ["中文", "資料庫", "資料科學", "經濟學", "銀行貨幣學", "運動代表隊"]
 
 #test query
@@ -20,7 +21,7 @@ character_lst.each do |c|
 	counter += 1
 end
 
- 
+
 def sim_cosine(v1, v2)
 	v1 = v1.normalize
 	v2 = v2.normalize
@@ -71,5 +72,3 @@ printf "Cleaned Query: %s\npenalty: %.5f\n\n", q, penal
 dt_score.each do |k, val|
 	printf "%s:   %.4f\n", k, val
 end
-
-
