@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180509131536) do
+ActiveRecord::Schema.define(version: 20180509142254) do
 
   create_table "chooses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.datetime "created_at", null: false
@@ -52,9 +52,9 @@ ActiveRecord::Schema.define(version: 20180509131536) do
     t.string "location"
     t.string "department"
     t.string "course_type"
-    t.boolean "is_general"
+    t.string "is_general"
     t.string "general_type"
-    t.boolean "central_general"
+    t.string "central_general"
     t.integer "course_maxnum"
     t.string "TA_id", null: false
     t.datetime "created_at", null: false
