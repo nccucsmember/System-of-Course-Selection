@@ -1,9 +1,9 @@
 class CourseController < ApplicationController
-  
+
   def index
 
     hash = {}
-    @course = Coursedetail.all
+    @course = Course.all
 
     if params[:zh] != nil
       @course = @course.where("course_name_ch LIKE ?", "%#{params[:zh]}%")
@@ -31,11 +31,11 @@ class CourseController < ApplicationController
 
 
     if params[:limit] != nil and params[:offset] != nil
-      @course = @course.where(hash).limit(params[:limit]).offset(params[:limit])
+      @course = @course.where(hash).limit(params[:limit]).offset(params[:offset])
     elsif params[:limit] != nil
       @course = @course.where(hash).limit(params[:limit])
     elsif params[:offset] != nil
-      @course = @course.where(hash).offset(params[:limit])
+      @course = @course.where(hash).offset(params[:offset])
     else
       @course = @course.where(hash)
     end
