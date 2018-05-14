@@ -4,8 +4,8 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   scope :path => '/api/v1/', :module => "api_v1", :as => 'v1', :defaults => { :format => :json } do
     match "login", to: "auth#login", via: [:post, :options]
-    post "logout" => "auth#logout"
-    post "register" => "register#create", :as => 'user'
+    match "logout", to: "auth#logout", via: [:post, :options]
+    match "register", to: "register#create", via: [:post, :options]
   end
 
   get "index" => "index#main"
