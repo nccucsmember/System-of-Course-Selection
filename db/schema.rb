@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180515140820) do
+ActiveRecord::Schema.define(version: 20180515164555) do
 
-  create_table "chooses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "chooses", primary_key: "cs_id", id: :string, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "course_id", null: false
     t.string "student_id", null: false
     t.datetime "created_at", null: false
