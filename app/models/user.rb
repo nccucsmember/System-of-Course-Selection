@@ -5,6 +5,11 @@ class User < ActiveRecord::Base
 
   self.primary_key = "schoolid"
 
+  has_many :students
+  has_many :tas
+
+
+
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
