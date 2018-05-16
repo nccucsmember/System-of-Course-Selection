@@ -35,7 +35,7 @@ class CourseController < ApplicationController
     name_lst = []
     # params[:query]
 
-    @like_result = Course.find_by_sql ["select course_name_ch from coursedetails where course_name_ch LIKE ?", "%#{params[:query]}%" ]
+    @like_result = Course.find_by_sql ["select course_name_ch from courses where course_name_ch LIKE ?", "%#{params[:query]}%" ]
 
     re_lst = []
 
