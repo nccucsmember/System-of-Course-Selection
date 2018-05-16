@@ -46,7 +46,7 @@ class CourseController < ApplicationController
 
   def show
 
-    @course = Coursedetail.find(params[:id])
+    @course = Course.find(params[:id])
     render :json => @course
 
   end
