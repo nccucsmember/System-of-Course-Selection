@@ -31,7 +31,6 @@ class FeatureController < ApplicationController
   	return Vector.elements(tmp_vec_lst)
   end
 
-
   def search
 
 

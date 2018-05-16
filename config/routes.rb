@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :course, :controller => 'course'
 
   get "feature/search/:query" => "feature#search"
+  get "course/search/:query" => "course#search"
 
   root :to => "index#main"
 
