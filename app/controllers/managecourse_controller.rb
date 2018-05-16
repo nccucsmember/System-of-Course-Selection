@@ -45,13 +45,17 @@ class ManagecourseController < ApplicationController
         choose.course_id = @course_id
         choose.student_id = @user_id
         choose.save
-        render :json => {:message => "The course #{@course_id} is add to #{@user_id}'s tracking list."}
+        if Course.find_by(subject_id:@course_id)!=nil
+          render :json => {:message => "The course #{@course_id} is add to #{@user_id}'s tracking list."}
+        else
+          render :json => {:message => "Invalid course!"}
+        end
       else
         render :json => {:message => "The course has been in the checklist!"}
       end
 
     else
-      render :json => {:message =>"Invalid user"}
+      render :json => {:message =>"Invalid user!"}
     end
 
   end
@@ -76,7 +80,7 @@ class ManagecourseController < ApplicationController
         render :json => {:message => "The course isn't in the checklist!"}
       end
     else
-      render :json => {:message =>"Invalid user"}
+      render :json => {:message =>"Invalid user!"}
     end
 
   end
