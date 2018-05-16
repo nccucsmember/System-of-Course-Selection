@@ -1,5 +1,7 @@
 class CourseController < ApplicationController
 
+#'762', '1062', '101008002', '2', '中國文學史', 'History of Chinese Literature', '曾守正', '3', '09:10:00', '12:00:00', 'THU.', '研究250202', '中文二甲', '必', 'False', '', 'False', '0', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'
+
   def index
 
     hash = {}

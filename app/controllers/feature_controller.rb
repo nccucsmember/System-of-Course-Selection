@@ -38,13 +38,13 @@ class FeatureController < ApplicationController
     name_lst = []
     # params[:query]
 
-    @like_result = Coursedetail.find_by_sql ["select course_name_ch from coursedetails where course_name_ch LIKE ?", "%#{params[:query]}%" ]
+    @like_result = Course.find_by_sql ["select course_name_ch from coursedetails where course_name_ch LIKE ?", "%#{params[:query]}%" ]
 
     re_lst = []
 
     if @like_result == []
 
-      @name_hash = Coursedetail.select("course_name_ch").distinct
+      @name_hash = Course.select("course_name_ch").distinct
       @name_hash.each do |n|
         name_lst.push(n.course_name_ch)
       end
@@ -69,6 +69,10 @@ class FeatureController < ApplicationController
       tmp_q = ""
       q.split("").each {|c| if character_lst.include? c; tmp_q << c; end}
       q = tmp_q
+      if tmp_q == ""
+        render :json => []
+        return
+      end
 
 
       v2 = vectorize_tf(q, character_lst, index_mapping)
@@ -91,14 +95,18 @@ class FeatureController < ApplicationController
         if t[1] > 0.45
           re_lst.push( t[0] )
           printf "%s:   %.4f\n", t[0], t[1]
+        else
+          break
         end
       end
     else
       @like_result.each do |dic|
         re_lst.push(dic['course_name_ch'])
       end
-      
+
     end
+
+
     render :json => re_lst
 
 
