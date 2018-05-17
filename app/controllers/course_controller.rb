@@ -32,6 +32,33 @@ class CourseController < ApplicationController
   end
 
   def search
+
+    query_dict = {
+      'course_id'       => '1351',
+      'semester'        => '1062',
+      'subject_id'      => '258733002',
+      'num_semesters'   => '2',
+      'course_name_ch'  => '賽局理論入門',
+      'course_name_en'  => 'An Introduction to Game Theory',
+      'teacher'         => '何靜嫺',
+      'credits'         => '3',
+      'begin_time'      => '00:00:00',
+      'end_time'        => '00:00:00',
+      'weekday'         => '',
+      'location'        => '綜合270404',
+      'department'      => '經濟碩一經濟碩二',
+      'course_type'     => '選',
+      'is_general'      => 'False',
+      'general_type'    => '',
+      'central_general' => 'False',
+      'course_maxnum'   => '0',
+      'TA_id'           => '',
+      'created_at'      => '0000-00-00 00:00:00',
+      'updated_at'      => '0000-00-00 00:00:00'
+    }
+
+    puts query_dict['department']
+
     name_lst = []
     # params[:query]
 
