@@ -33,7 +33,7 @@ class FeatureController < ApplicationController
 
   def search
 
-    db_courses = Course.all
+    db_courses = Course.all.as_json
     puts "----------------"
     puts( db_courses.class )
     puts "----------------"
@@ -42,7 +42,7 @@ class FeatureController < ApplicationController
       courses << tuple
     end
     puts "----------------"
-    puts( courses.class )
+    puts( courses[0]['num_semesters'].class )
     puts "----------------"
 
 
