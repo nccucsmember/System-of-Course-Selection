@@ -57,3 +57,7 @@ gem 'mysql2'
 gem 'devise'
 gem 'jquery-rails'
 gem 'omniauth-facebook'
+
+group :test, :development do
+  gem "rspec-rails"
+end
