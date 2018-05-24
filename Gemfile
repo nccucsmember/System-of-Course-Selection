@@ -60,4 +60,5 @@ gem 'omniauth-facebook'
 
 group :test, :development do
   gem "rspec-rails"
+  gem 'json_spec', '~> 1.1', '>= 1.1.5'
 end

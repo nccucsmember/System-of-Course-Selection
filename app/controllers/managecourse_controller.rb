@@ -8,8 +8,7 @@ class ManagecourseController < ApplicationController
 
     # request.headers["HTTP_AUTHORIZATION"] -- get user's auth_token
     # params["id"] -- get course_id
-    request.headers["HTTP_AUTHORIZATION"]
-    myhash = { :id => params["id"], :auth_token => request.headers["HTTP_AUTHORIZATION"]}
+    myhash = {:auth_token => request.headers["HTTP_AUTHORIZATION"]}
     @user = User.find_by_authentication_token(myhash[:auth_token])
 
     if @user
