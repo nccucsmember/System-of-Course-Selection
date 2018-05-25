@@ -2,20 +2,44 @@ require "rails_helper"
 
 RSpec.describe ManagecourseController, type: :controller do
 
-  describe "GET a person's tracking list" do
+  describe "all feature of tracking" do
 
-    it "find the tracking list and render json" do
+    let(:user) { User.create!(:email => 'joy1111@gmail.com', :password => 'aaaaaaa', :schoolid => "12121212") }
+    let(:course) { Course.create!(:course_id => "testcourseid", :semester => '1062', :subject_id => 'testid', :TA_id => '111') }
 
-      @user =  User.create!(:email => 'joy1111@gmail.com', :password => 'aaaaaaa', :schoolid => "12121212")
-      @course = Course.find_by_sql(["select courses.* from courses,chooses where chooses.course_id=subject_id and student_id=?", @user.schoolid])
 
-      request.headers["Authorization"] = "#{@user.authentication_token}"
+    context "GET a person's tracking list" do
 
-      get :index
+      it "find the tracking list" do
 
-      @tracking_list = {:course_list => @course, :message => "OK"}.to_json
+        request.headers["Authorization"] = "#{user.authentication_token}"
 
-      expect(response.body).to be_json_eql(@tracking_list)
+        course
+        track = Choose.create!( :cs_id => 'testid12121212', :course_id => 'testid', :student_id => '12121212' )
+
+        get :index
+
+        @tracking_list = { :course_list => [course], :message => "OK" }.to_json
+
+        expect(response.body).to be_json_eql(@tracking_list)
+
+      end
+
+    end
+
+    context "PATCH a person's new tracking" do
+
+      it "return success message" do
+
+        request.headers["Authorization"] = "#{user.authentication_token}"
+
+        put :update, params: { id: course.subject_id }
+
+        @success = { :message => "The course #{course.subject_id} is add to #{user.schoolid}'s tracking list." }.to_json
+
+        expect(response.body).to be_json_eql(@success)
+
+      end
 
     end
 

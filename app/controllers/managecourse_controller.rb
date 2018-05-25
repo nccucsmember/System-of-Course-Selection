@@ -38,23 +38,30 @@ class ManagecourseController < ApplicationController
       @user_id = @user.schoolid
       @course_id = myhash[:id]
 
-      if Choose.find_by(cs_id:@course_id+@user_id)==nil
+      if Choose.find_by(cs_id:@course_id+@user_id) == nil
+
         choose = Choose.new
         choose.cs_id = @course_id + @user_id
         choose.course_id = @course_id
         choose.student_id = @user_id
         choose.save
-        if Course.find_by(subject_id:@course_id)!=nil
+
+        if Course.find_by(subject_id:@course_id) != nil
           render :json => {:message => "The course #{@course_id} is add to #{@user_id}'s tracking list."}
         else
           render :json => {:message => "Invalid course!"}
         end
+
       else
+
         render :json => {:message => "The course has been in the checklist!"}
+
       end
 
     else
+
       render :json => {:message =>"Invalid user!"}
+
     end
 
   end
