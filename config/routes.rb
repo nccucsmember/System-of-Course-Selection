@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :managecourse, :controller => 'managecourse'
   resources :info, :controller => 'info'
   resources :course, :controller => 'course'
+  resources :choose, :controller => 'choose'
 
   get "feature/search/:query" => "feature#search"
   get "course/search/:query" => "course#search"
