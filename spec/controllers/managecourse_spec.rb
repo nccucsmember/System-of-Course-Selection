@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe ManagecourseController, type: :controller do
 
-  describe "all feature of tracking" do
+  describe "all feature of tracking system" do
 
     let(:user) { User.create!(:email => 'joy1111@gmail.com', :password => 'aaaaaaa', :schoolid => "12121212") }
     let(:course) { Course.create!(:course_id => "testcourseid", :semester => '1062', :subject_id => 'testid', :TA_id => '111') }

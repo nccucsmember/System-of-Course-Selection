@@ -10,7 +10,10 @@ Rails.application.routes.draw do
 
   get "index" => "index#main"
 
-  resources :managecourse, :controller => 'managecourse'
+  match "managecourse", to: "managecourse#index", via: [:get, :options]
+  match "managecourse/:id", to: "managecourse#update", via: [:put, :options]
+  match "managecourse/:id", to: "managecourse#destroy", via: [:delete, :options]
+
   resources :info, :controller => 'info'
   resources :course, :controller => 'course'
 
