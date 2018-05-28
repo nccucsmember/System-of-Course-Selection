@@ -14,9 +14,12 @@ Rails.application.routes.draw do
   match "managecourse/:id", to: "managecourse#update", via: [:put, :options]
   match "managecourse/:id", to: "managecourse#destroy", via: [:delete, :options]
 
+  match "choose", to: "choose#index", via: [:get, :options]
+  match "choose/:id", to: "choose#update", via: [:put, :options]
+  match "choose/:id", to: "choose#destroy", via: [:delete, :options]
+
   resources :info, :controller => 'info'
   resources :course, :controller => 'course'
-  resources :choose, :controller => 'choose'
 
   get "feature/search/:query" => "feature#search"
   get "course/search/:query" => "course#search"

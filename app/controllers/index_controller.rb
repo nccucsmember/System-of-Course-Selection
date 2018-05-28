@@ -1,8 +1,5 @@
 class IndexController < ApplicationController
 
-
-    layout "application"
-
     def main
 
       @courses = Coursedetail.all

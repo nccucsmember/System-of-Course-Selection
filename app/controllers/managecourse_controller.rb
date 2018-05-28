@@ -1,9 +1,5 @@
 class ManagecourseController < ApplicationController
 
-
-  layout "application"
-
-
   def index
 
     # request.headers["HTTP_AUTHORIZATION"] -- get user's auth_token

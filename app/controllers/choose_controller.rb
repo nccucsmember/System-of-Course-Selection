@@ -1,7 +1,5 @@
 class ChooseController < ApplicationController
-	layout 'application'
 
-	
 	def index
 		# Return the Chosen Course List
 
@@ -19,14 +17,14 @@ class ChooseController < ApplicationController
 
 	def update
 		### Set the isChosen field to opposite value
-	
+
 		myhash = {:id => params['id'], :auth_token => request.headers['HTTP_AUTHORIZATION']}
 		@user = User.find_by_authentication_token(myhash[:auth_token])
 
 		if @user
 			@user_id = @user.schoolid
 			@course_id = myhash[:id]
-			
+
 			choose = Choose.find_by(cs_id: @course_id + @user_id)
 			if choose != nil
 				choose.isChosen = !choose.isChosen

@@ -1,5 +1,4 @@
 class InfoController < ApplicationController
-  layout "application"
 
   def index
 
