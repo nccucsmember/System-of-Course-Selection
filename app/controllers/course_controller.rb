@@ -114,7 +114,7 @@ class CourseController < ApplicationController
       'course_name_ch'  => '賽局3',
       'teacher'         => '何靜嫺',
       'credits'         => 3,
-      'weekday'         => ['Wed.', 'Tue.', 'Thu.', 'Mon.'],
+      'weekday'         => [],
       #'begin_time'      => '00:00:00', #TimeWithZone
       #'end_time'        => '00:00:00',
       #'location'        => '綜合270404',
@@ -195,8 +195,12 @@ class CourseController < ApplicationController
 
     end
 
+    return_dt = {
+      "cuont": return_lst.length,
+      "course_list": return_lst
+    }
 
-    render :json => return_lst
+    render :json => return_dt
 
   end
 
