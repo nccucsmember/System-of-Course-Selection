@@ -8,6 +8,9 @@ class User < ActiveRecord::Base
   has_many :students
   has_many :tas
 
+  has_many :thumbups
+  has_many :comments, :through => thumbups
+
 
 
 
