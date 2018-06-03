@@ -5,4 +5,6 @@ class Course < ApplicationRecord
 
 	has_many :chooses
 	has_many :students, :through => :chooses
+
+	has_many :comments
 end
