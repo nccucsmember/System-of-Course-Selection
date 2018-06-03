@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   has_many :tas
 
   has_many :thumbups
-  has_many :comments, :through => thumbups
+  has_many :comments, :through => :thumbups
 
 
 
