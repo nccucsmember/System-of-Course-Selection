@@ -8,7 +8,7 @@ class ChooseController < ApplicationController
 
 		if @user
 			@user_id = @user.schoolid
-			@chosen_courses = Course.find_by_sql(['SELECT courses.* FROM courses, chooses WHERE isChosen = true and student_id = ? and chooses.course_id = subject_id', @user_id])
+			@chosen_courses = Course.find_by_sql(['SELECT courses.* FROM courses, chooses WHERE is_chosen = true and student_id = ? and chooses.course_id = subject_id', @user_id])
 			render :json => {:chosen_courses_list => @chosen_courses, :message => 'OK'}
 		else
 			render :json => {:message => 'Invalid user'}
@@ -27,10 +27,10 @@ class ChooseController < ApplicationController
 
 			choose = Choose.find_by(cs_id: @course_id + @user_id)
 			if choose != nil
-				choose.isChosen = !choose.isChosen
+				choose.is_chosen = !choose.is_chosen
 				choose.save
 
-				@chosen_courses = Course.find_by_sql(['SELECT courses.* FROM courses, chooses WHERE isChosen = true and student_id = ? and chooses.course_id = subject_id', @user_id])
+				@chosen_courses = Course.find_by_sql(['SELECT courses.* FROM courses, chooses WHERE is_chosen = true and student_id = ? and chooses.course_id = subject_id', @user_id])
 
 				render :json => {:chosen_courses_list => @chosen_courses, :message => 'OK'}
 			else
