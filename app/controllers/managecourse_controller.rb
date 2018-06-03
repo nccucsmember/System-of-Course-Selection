@@ -4,15 +4,18 @@ class ManagecourseController < ApplicationController
 
     # request.headers["HTTP_AUTHORIZATION"] -- get user's auth_token
     # params["id"] -- get course_id
-    myhash = {:auth_token => request.headers["HTTP_AUTHORIZATION"]}
-    @user = User.find_by_authentication_token(myhash[:auth_token])
+      myhash = {:auth_token => request.headers["HTTP_AUTHORIZATION"]}
+      @user = User.find_by_authentication_token(myhash[:auth_token])
 
     if @user
 
       @user_id = @user.schoolid
-      @course = Course.find_by_sql(["select courses.* from courses,chooses where chooses.course_id=subject_id and student_id=?", @user_id])
-
-      render :json => {:course_list => @course , :message => "OK"}
+      @course = Course.find_by_sql(["select courses.* from courses,chooses where chooses.course_id=subject_id and chooses.is_chosen=0 and student_id=?", @user_id])
+      if @course.empty?
+        render :json => {:message => "No Courses."}
+      else
+        render :json => {:course_list => @course , :message => "OK"}
+      end
     else
       render :json => {:message =>"Invalid user"}
     end
@@ -40,7 +43,7 @@ class ManagecourseController < ApplicationController
         choose.cs_id = @course_id + @user_id
         choose.course_id = @course_id
         choose.student_id = @user_id
-		choose.isChosen = false # False means NOT CHOSEN YET.
+		    choose.is_chosen = '0'
         choose.save
         if Course.find_by(subject_id:@course_id)!=nil
           render :json => {:message => "The course #{@course_id} is add to #{@user_id}'s tracking list."}

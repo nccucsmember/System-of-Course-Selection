@@ -15,7 +15,8 @@ RSpec.describe ManagecourseController, type: :controller do
         request.headers["Authorization"] = "#{user.authentication_token}"
 
         course
-        track = Choose.create!( :cs_id => 'testid12121212', :course_id => 'testid', :student_id => '12121212' )
+        
+		track = Choose.create!( :cs_id => 'testid12121212', :course_id => 'testid', :student_id => '12121212' )
 
         get :index
 
