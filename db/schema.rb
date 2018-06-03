@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180603094321) do
+ActiveRecord::Schema.define(version: 20180603142429) do
 
   create_table "chooses", primary_key: "cs_id", id: :string, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "course_id", null: false
@@ -89,6 +89,13 @@ ActiveRecord::Schema.define(version: 20180603094321) do
   create_table "tas", primary_key: "TA_id", id: :string, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "name", null: false
     t.string "email", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "thumbups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "auth_token", null: false
+    t.integer "comment_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
