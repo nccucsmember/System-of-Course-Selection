@@ -10,5 +10,6 @@ script:
   - bundle exec rspec spec/
 before_script:
   - cp config/database.travis.yml config/database.yml
+  - cp config/secrets.travis.yml config/secrets.yml
   - mysql -e 'create database COURSE'
 bundler_args: --binstubs=./bundler_stubs
