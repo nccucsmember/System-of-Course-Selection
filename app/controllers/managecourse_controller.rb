@@ -40,7 +40,7 @@ class ManagecourseController < ApplicationController
         choose.cs_id = @course_id + @user_id
         choose.course_id = @course_id
         choose.student_id = @user_id
-		choose.isChosen = false # False means NOT CHOSEN YET.
+		choose.is_chosen = '0' # False means NOT CHOSEN YET.
         choose.save
         if Course.find_by(subject_id:@course_id)!=nil
           render :json => {:message => "The course #{@course_id} is add to #{@user_id}'s tracking list."}

@@ -1,0 +1,7 @@
+default: &default
+  adapter: mysql2
+test:
+  <<: *default
+  database: COURSE
+  username: root
+  encoding: utf8mb4
