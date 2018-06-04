@@ -4,4 +4,4 @@ test:
   <<: *default
   database: COURSE
   username: root
-  encoding: utf8mb4
+  encoding: utf8
