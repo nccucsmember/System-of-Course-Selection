@@ -3,18 +3,24 @@ class CommentController < ApplicationController
 
   def ascent
 
-    #record course name and teacher
-    course_name_ch_now = Course.find_by(:subject_id => params[:id]).course_name_ch
-    teacher_now = Course.find_by(:subject_id => params[:id]).teacher
+    if Course.find_by(:subject_id => params[:id])!=nil
+      #record course name and teacher
+      course_name_ch_now = Course.find_by(:subject_id => params[:id]).course_name_ch
+      teacher_now = Course.find_by(:subject_id => params[:id]).teacher
 
-    #find the all comments of courses which have the same name and same teacher, and sorted by good ascent
-    @comment = Comment.find_by_sql(["select comments.*,semester,num_semesters from comments,courses where comments.subject_id=courses.subject_id and course_name_ch=? and teacher=? order by good asc",course_name_ch_now,teacher_now])
+      #find the all comments of courses which have the same name and same teacher, and sorted by good ascent
+      @comment = Comment.find_by_sql(["select comments.*,semester,num_semesters from comments,courses where comments.subject_id=courses.subject_id and course_name_ch=? and teacher=? order by good asc",course_name_ch_now,teacher_now])
 
-    if @comment.empty?
-      render :json => {:message => "No Comments."}
+      if @comment.empty?
+        render :json => {:message => "No Comments."}
+      else
+        render :json => {:course_name_ch => course_name_ch_now ,:teacher => teacher_now ,:comment => @comment}
+      end
+
     else
-      render :json => {:course_name_ch => course_name_ch_now ,:teacher => teacher_now ,:comment => @comment}
+      render :json => {:message => "Invalid Course"}
     end
+
   end
 
 
@@ -22,17 +28,23 @@ class CommentController < ApplicationController
 
   def descent
 
-    course_name_ch_now = Course.find_by(:subject_id => params[:id]).course_name_ch
-    teacher_now = Course.find_by(:subject_id => params[:id]).teacher
+    if Course.find_by(:subject_id => params[:id])!=nil
+      course_name_ch_now = Course.find_by(:subject_id => params[:id]).course_name_ch
+      teacher_now = Course.find_by(:subject_id => params[:id]).teacher
 
-    #sorted by good descent
-    @comment = Comment.find_by_sql(["select comments.*,semester,num_semesters from comments,courses where comments.subject_id=courses.subject_id and course_name_ch=? and teacher=? order by good desc",course_name_ch_now,teacher_now])
+      #sorted by good descent
+      @comment = Comment.find_by_sql(["select comments.*,semester,num_semesters from comments,courses where comments.subject_id=courses.subject_id and course_name_ch=? and teacher=? order by good desc",course_name_ch_now,teacher_now])
 
-    if @comment.empty?
-      render :json => {:message => "No Comments."}
+      if @comment.empty?
+        render :json => {:message => "No Comments."}
+      else
+        render :json => {:course_name_ch => course_name_ch_now ,:teacher => teacher_now ,:comment => @comment}
+      end
+
     else
-      render :json => {:course_name_ch => course_name_ch_now ,:teacher => teacher_now ,:comment => @comment}
+      render :json => {:message => "Invalid Course"}
     end
+
   end
 
 
@@ -40,17 +52,23 @@ class CommentController < ApplicationController
 
   def time_ascent
 
-    course_name_ch_now = Course.find_by(:subject_id => params[:id]).course_name_ch
-    teacher_now = Course.find_by(:subject_id => params[:id]).teacher
+    if Course.find_by(:subject_id => params[:id])!=nil
+      course_name_ch_now = Course.find_by(:subject_id => params[:id]).course_name_ch
+      teacher_now = Course.find_by(:subject_id => params[:id]).teacher
 
-    #sorted by id(time) ascent
-    @comment = Comment.find_by_sql(["select comments.*,semester,num_semesters from comments,courses where comments.subject_id=courses.subject_id and course_name_ch=? and teacher=? order by comments.id asc",course_name_ch_now,teacher_now])
+      #sorted by id(time) ascent
+      @comment = Comment.find_by_sql(["select comments.*,semester,num_semesters from comments,courses where comments.subject_id=courses.subject_id and course_name_ch=? and teacher=? order by comments.id asc",course_name_ch_now,teacher_now])
 
-    if @comment.empty?
-      render :json => {:message => "No Comments."}
+      if @comment.empty?
+        render :json => {:message => "No Comments."}
+      else
+        render :json => {:course_name_ch => course_name_ch_now ,:teacher => teacher_now ,:comment => @comment}
+      end
+
     else
-      render :json => {:course_name_ch => course_name_ch_now ,:teacher => teacher_now ,:comment => @comment}
+      render :json => {:message => "Invalid Course"}
     end
+
   end
 
 
@@ -58,17 +76,23 @@ class CommentController < ApplicationController
 
   def time_descent
 
-    course_name_ch_now = Course.find_by(:subject_id => params[:id]).course_name_ch
-    teacher_now = Course.find_by(:subject_id => params[:id]).teacher
+    if Course.find_by(:subject_id => params[:id])!=nil
+      course_name_ch_now = Course.find_by(:subject_id => params[:id]).course_name_ch
+      teacher_now = Course.find_by(:subject_id => params[:id]).teacher
 
-    #sorted by id(time) descent
-    @comment = Comment.find_by_sql(["select comments.*,semester,num_semesters from comments,courses where comments.subject_id=courses.subject_id and course_name_ch=? and teacher=? order by comments.id desc",course_name_ch_now,teacher_now])
+      #sorted by id(time) descent
+      @comment = Comment.find_by_sql(["select comments.*,semester,num_semesters from comments,courses where comments.subject_id=courses.subject_id and course_name_ch=? and teacher=? order by comments.id desc",course_name_ch_now,teacher_now])
 
-    if @comment.empty?
-      render :json => {:message => "No Comments."}
+      if @comment.empty?
+        render :json => {:message => "No Comments."}
+      else
+        render :json => {:course_name_ch => course_name_ch_now ,:teacher => teacher_now ,:comment => @comment}
+      end
+
     else
-      render :json => {:course_name_ch => course_name_ch_now ,:teacher => teacher_now ,:comment => @comment}
+      render :json => {:message => "Invalid Course"}
     end
+
   end
 
 
@@ -76,17 +100,23 @@ class CommentController < ApplicationController
 
   def score
 
-    course_name_ch_now = Course.find_by(:subject_id => params[:id]).course_name_ch
-    teacher_now = Course.find_by(:subject_id => params[:id]).teacher
+    if Course.find_by(:subject_id => params[:id])!=nil
+      course_name_ch_now = Course.find_by(:subject_id => params[:id]).course_name_ch
+      teacher_now = Course.find_by(:subject_id => params[:id]).teacher
 
-    #calculate the average value of the comments of the courses which have same name and same teacher
-    score = Comment.find_by_sql(["select avg(comments.score) from comments,courses where comments.subject_id=courses.subject_id and course_name_ch=? and teacher=?",course_name_ch_now,teacher_now])
+      #calculate the average value of the comments of the courses which have same name and same teacher
+      score = Comment.find_by_sql(["select avg(comments.score) from comments,courses where comments.subject_id=courses.subject_id and course_name_ch=? and teacher=?",course_name_ch_now,teacher_now])
 
-    if score==0
-      render :json => {:message => "There have no Comments"}
+      if score==0
+        render :json => {:message => "There have no Comments"}
+      else
+        render :json => {:score => score}
+      end
+
     else
-      render :json => {:score => score}
+      render :json => {:message => "Invalid Course"}
     end
+
   end
 
 
@@ -107,7 +137,7 @@ class CommentController < ApplicationController
         comment = Comment.find_by(id:params[:comment_id])
         comment.good = comment.good + 1
         comment.save
-        render :json => {:message => "#{@user_id} thumbup on comment #{params[:comment_id ]}" , :good => comment.good}
+        render :json => {:message => "#{@user_id} thumbup on comment #{params[:comment_id ]}" , :updated_comment => comment}
       else
         render :json => {:message => "#{@user_id} have been thumbup comment #{params[:comment_id]}"}
       end
@@ -118,6 +148,7 @@ class CommentController < ApplicationController
   end
 
   def remove_thumbup
+    
     myhash = {:auth_token => request.headers["HTTP_AUTHORIZATION"]}
     @user = User.find_by_authentication_token(myhash[:auth_token])
     @user_id = @user.schoolid
@@ -129,7 +160,7 @@ class CommentController < ApplicationController
         comment = Comment.find_by(id:params[:comment_id])
         comment.good = comment.good - 1
         comment.save
-        render :json => {:message => "remove #{@user_id}'s thumbup on comment #{params[:comment_id]}", :good => comment.good}
+        render :json => {:message => "remove #{@user_id}'s thumbup on comment #{params[:comment_id]}", :updated_comment => comment}
       else
         render :json => {:message => "#{@user_id} doesn't thumbup comment #{params[:comment_id]} yet"}
       end
