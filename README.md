@@ -18,15 +18,22 @@ iCourse is a course selection system for all NCCU students. iCourse tries to imp
 
 Example of database.yml:
 ```yml
-development:
+default: &default
+  adapter: mysql2
+test:
   <<: *default
-  adapter: <YOUR ADAPTER>
-  encoding: utf8mb4
-  host: <YOUR HOST>
-  database: <YOUR SCHEMA>
-  username: <YOUR USERNAME>
-  password: <YOUR PASSWORD>
+  database: COURSE
+  username: root
+  encoding: utf8
 ```
+
+Example of secrets.yml:
+```yml
+test:
+  secret_key_base: <APP secret_key_base>
+
+```
+
 
 2. Install dependent package:
 ```console
@@ -37,3 +44,6 @@ $ bundle install
 ```console
 $ rails server
 ```
+
+## Code Status
+[![Build Status](https://travis-ci.org/nccucsmember/iCourse.svg?branch=master)](https://travis-ci.org/nccucsmember/iCourse)
