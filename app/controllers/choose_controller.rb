@@ -49,4 +49,31 @@ class ChooseController < ApplicationController
 			render :json => {:message => 'Invalid user.'}
 		end
 	end
+
+
+
+	def setorder
+		myhash = {:id => params['id'], :order => params['order'], :auth_token => request.headers['HTTP_AUTHORIZATION']}
+		
+		@user = User.find_by_authentication_token(myhash[:auth_token])
+		
+		if @user
+			@user_id = @user.schoolid
+			@course_id = myhash[:id]
+			@order = myhash[:order]
+
+			choose = Choose.find_by(cs_id: @course_id + @user_id)
+			if choose != nil and choose.is_chosen == '1'
+				choose.chosen_order = @order
+				choose.save
+				
+				render :json => {:message => 'Order has been set.'}
+
+			else
+				render :json => {:message => 'The course is not in selected list.'}
+			end
+		else
+			render :json => {:message => 'Invalid user.'}
+		end
+	end
 end
