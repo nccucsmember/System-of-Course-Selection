@@ -63,7 +63,22 @@ class ChooseController < ApplicationController
 		if @user
 			@user_id = @user.schoolid
 			@course_id = myhash[:id]
-			@order = myhash[:order]
+			@order = Integer(myhash[:order])
+
+			# check if the input order is duplicate
+			@orders = Choose.find_by_sql([
+				'SELECT * 
+				 FROM chooses 
+				 WHERE is_chosen = 1 and student_id = ?', @user_id])
+
+			@orders.each {
+				|c|
+				if c.chosen_order == @order
+					render :json => {:message => 'Duplicate order'}
+					return
+				end
+			}
+			
 
 			choose = Choose.find_by(cs_id: @course_id + @user_id)
 			if choose != nil and choose.is_chosen == '1'
