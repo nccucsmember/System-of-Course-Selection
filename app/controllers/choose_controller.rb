@@ -35,8 +35,11 @@ class ChooseController < ApplicationController
 			choose = Choose.find_by(cs_id: @course_id + @user_id)
 			if choose != nil
 				if choose.is_chosen == '1'
+					# put it back to tracking list
 					choose.is_chosen = '0'
+					choose.chosen_order = nil
 				else
+					# put it into selected list
 					choose.is_chosen = '1'
 				end
 
