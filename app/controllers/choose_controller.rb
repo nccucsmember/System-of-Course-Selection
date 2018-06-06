@@ -8,19 +8,27 @@ class ChooseController < ApplicationController
 
 		if @user
 			@user_id = @user.schoolid
-			@chosen_courses = Course.find_by_sql([
+			@chosen_courses_with_order = Course.find_by_sql([
 				'SELECT courses.* 
 			 	 FROM courses, chooses 
-				 WHERE is_chosen = 1 and student_id = ? and chooses.course_id = subject_id ORDER BY chosen_order ASC', @user_id])
-			if @chosen_courses.empty?
+				 WHERE is_chosen = 1 and student_id = ? and chooses.course_id = subject_id and chosen_order > 0 ORDER BY chosen_order ASC', @user_id])
+			@chosen_courses_no_order = Course.find_by_sql([
+				'SELECT courses.* 
+			 	 FROM courses, chooses 
+				 WHERE is_chosen = 1 and student_id = ? and chooses.course_id = subject_id and chosen_order IS NULL', @user_id])
+
+
+			if @chosen_courses_with_order.empty? and @chosen_courses_no_order.empty?
 				render :json => {:message => "No Courses."}
 			else
-				render :json => {:chosen_courses_list => @chosen_courses, :message => 'OK'}
+				render :json => {:chosen_courses_list => @chosen_courses_with_order + @chosen_courses_no_order, :message => 'OK'}
 			end
 		else
 			render :json => {:message => 'Invalid user'}
 		end
 	end
+
+
 
 	def update
 		### Set the is_chosen field to opposite value
@@ -45,7 +53,10 @@ class ChooseController < ApplicationController
 
 				choose.save
 
-				@chosen_courses = Course.find_by_sql(['SELECT courses.* FROM courses, chooses WHERE is_chosen = 1 and student_id = ? and chooses.course_id = subject_id', @user_id])
+				@chosen_courses = Course.find_by_sql([
+					'SELECT courses.* 
+					 FROM courses, chooses 
+					 WHERE is_chosen = 1 and student_id = ? and chooses.course_id = subject_id', @user_id])
 
 				render :json => {:chosen_courses_list => @chosen_courses, :message => 'OK'}
 			else
