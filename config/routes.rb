@@ -18,11 +18,21 @@ Rails.application.routes.draw do
   match "choose/:id", to: "choose#update", via: [:put, :options]
   match "choose/:id", to: "choose#destroy", via: [:delete, :options]
 
+  match "comment/:id/ascent", to: "comment#ascent", via: [:get, :options]
+  match "comment/:id/descent", to: "comment#descent", via: [:get, :options]
+  match "comment/:id/time_ascent", to: "comment#time_ascent", via: [:get, :options]
+  match "comment/:id/time_descent", to: "comment#time_descent", via: [:get, :options]
+  match "comment/:id/score", to: "comment#score", via: [:get, :options]
+  match "comment/:id/:comment_id", to: "comment#give_thumbup", via: [:put, :options]
+  match "comment/:id/:comment_id", to: "comment#remove_thumbup", via: [:delete, :options]
+
   resources :info, :controller => 'info'
   resources :course, :controller => 'course'
 
   get "feature/search/:query" => "feature#search"
   get "course/search/:query" => "course#search"
+
+  patch "choose/setorder/:id/:order" => "choose#setorder"
 
   root :to => "index#main"
 
