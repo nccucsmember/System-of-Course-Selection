@@ -106,23 +106,24 @@ class CourseController < ApplicationController
 
   def search
 
+
     query_params = {
       #'course_id'       => '1351',
       #'semester'        => '1062',
-      'subject_id'      => "",#'258733002',
-      'num_semesters'   => "2",
-      'course_name_ch'  => '賽局3',
-      'teacher'         => '何靜嫺',
-      'credits'         => 3,
+      'subject_id'      => params["subject_id"],#'258733002',
+      'num_semesters'   => params["num_semesters"],
+      'course_name_ch'  => params["course_name_ch"],#'賽局3',
+      'teacher'         => params["teacher"],#'何靜嫺',
+      'credits'         => params["credits"],
       'weekday'         => [],
       #'begin_time'      => '00:00:00', #TimeWithZone
       #'end_time'        => '00:00:00',
       #'location'        => '綜合270404',
       #'department'      => '經濟碩一經濟碩二',
-      'course_type'     => '選',
-      'is_general'      => 'False',
-      'general_type'    => '',
-      'central_general' => 'False'
+      'course_type'     => params["course_type"],
+      'is_general'      => params["is_general"],
+      'general_type'    => params["general_type"],
+      'central_general' => params["central_general"]
     }
 
     # if specified subject_id
@@ -196,7 +197,7 @@ class CourseController < ApplicationController
     end
 
     return_dt = {
-      "cuont": return_lst.length,
+      "count": return_lst.length,
       "course_list": return_lst
     }
 

@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   resources :course, :controller => 'course'
 
   get "feature/search/:query" => "feature#search"
+  match "course/search", to: "course#search", via: [:post, :options]
   get "course/search/:query" => "course#search"
 
   patch "choose/setorder/:id/:order" => "choose#setorder"
