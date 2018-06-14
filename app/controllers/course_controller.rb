@@ -143,7 +143,7 @@ class CourseController < ApplicationController
       condition['course_name_ch'] = ch_class_name.uniq
     end
     @query_result = Course.where(condition)
-    @return_result = @query_result.limit(10).offset(0)
+    @return_result = @query_result.limit(params["limit"]).offset(params["offset"])
     re_lst = @return_result
 
     return_dt = {
