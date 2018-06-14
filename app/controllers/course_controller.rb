@@ -107,6 +107,7 @@ class CourseController < ApplicationController
   def search
 
 
+
     query_params = {
       #'course_id'       => '1351',
       #'semester'        => '1062',
@@ -115,7 +116,7 @@ class CourseController < ApplicationController
       'course_name_ch'  => params["course_name_ch"],#'賽局3',
       'teacher'         => params["teacher"],#'何靜嫺',
       'credits'         => params["credits"],
-      'weekday'         => [],
+      'weekday'         => params["weekday"].split(','),
       #'begin_time'      => '00:00:00', #TimeWithZone
       #'end_time'        => '00:00:00',
       #'location'        => '綜合270404',
@@ -125,6 +126,8 @@ class CourseController < ApplicationController
       'general_type'    => params["general_type"],
       'central_general' => params["central_general"]
     }
+
+    #puts query_params
 
     # if specified subject_id
     if query_params['subject_id'] != nil and query_params['subject_id'] != ""
