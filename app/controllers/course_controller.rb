@@ -113,10 +113,10 @@ class CourseController < ApplicationController
       #'semester'        => '1062',
       'subject_id'      => params["subject_id"],#'258733002',
       'num_semesters'   => params["num_semesters"],
-      'course_name_ch'  => params["course_name_ch"],#'賽局3',
-      'teacher'         => params["teacher"],#'何靜嫺',
+      # 'course_name_ch'  => params["course_name_ch"],#'賽局3',
+      # 'teacher'         => params["teacher"],#'何靜嫺',
       'credits'         => params["credits"],
-      'weekday'         => params["weekday"].split(','),
+      'weekday'         => params["weekday"],
       #'begin_time'      => '00:00:00', #TimeWithZone
       #'end_time'        => '00:00:00',
       #'location'        => '綜合270404',
@@ -127,7 +127,10 @@ class CourseController < ApplicationController
       'central_general' => params["central_general"]
     }
 
-    #puts query_params
+    like_query_params = {
+      'course_name_ch'  => params["course_name_ch"],#'賽局3',
+      'teacher'         => params["teacher"],#'何靜嫺',
+    }
 
     # if specified subject_id
     if query_params['subject_id'] != nil and query_params['subject_id'] != ""
@@ -136,75 +139,30 @@ class CourseController < ApplicationController
       return
     end
 
-    #filter with course name
     re_lst = []
-    @like_result = Course.find_by_sql ["select * from courses where course_name_ch LIKE ?", "%#{query_params['course_name_ch']}%" ]
-    if @like_result == []
-      re_lst = course_name_fuzzysearch(query_params['course_name_ch'])
+    condition = {}
+    query_params.each_pair { |key, value| value == nil || value == []? '' : condition[key] = value}
+    like_condition = {}
+    like_query_params.each_pair {|key, value| value == nil ? like_condition[key] = '%' : like_condition[key] = "%#{value}%"}
+    @return_result = Course.where("course_name_ch LIKE ? AND teacher LIKE ?", like_condition["course_name_ch"], like_condition["teacher"]).where(condition)
+
+    if @return_result.count == 0
+      fuzzy_search_class = course_name_fuzzysearch(like_query_params['course_name_ch'])
+      ch_class_name = fuzzy_search_class.map {|n| n["course_name_ch"]}
+      condition['course_name_ch'] = ch_class_name.uniq
+      @fuzzy_result = Course.where(condition)
+      result = {
+        "count": @fuzzy_result.count,
+        "course_list": @fuzzy_result.limit(params["limit"]).offset(params["offset"]),
+      }
+      render :json => result
     else
-      @like_result = @like_result.as_json
-      @like_result.each do |dic|
-        re_lst.push( dic )
-      end
+      return_dt = {
+        "count": @return_result.count,
+        "course_list": @return_result.limit(params["limit"]).offset(params["offset"]),
+      }
+      render :json => return_dt
     end
-
-    #filter with other params
-    return_lst = []
-    re_lst.each do |t|
-      flag = true
-      if t['num_semesters'] != query_params['num_semesters']
-        #puts "num_semesters not match"
-        #re_lst.delete(t)
-        flag = false
-
-      elsif not t['teacher'].include? query_params['teacher']
-        #puts "teacher not match"
-        flag = false
-        #re_lst.delete(t)
-
-      elsif t['credits'] != query_params['credits']
-        #puts "credits not match"
-        flag = false
-        #re_lst.delete(t)
-
-      elsif (query_params['weekday'] != [] and t['weekday'] != [] and (not query_params['weekday'].include? t['weekday']))
-        puts "weekday not match"
-        flag = false
-        #re_lst.delete(t)
-
-      elsif t['course_type'] != query_params['course_type']
-        #puts "course_type not match"
-        flag = false
-        #re_lst.delete(t)
-
-      elsif t['is_general'] != query_params['is_general']
-        #puts "is_general not match"
-        flag = false
-        #re_lst.delete(t)
-
-      elsif t['general_type'] != query_params['general_type']
-        #puts "general_type not match"
-        flag = false
-        #re_lst.delete(t)
-
-      elsif t['central_general'] != query_params['central_general']
-        #puts "central_general not match"
-        flag = false
-        #re_lst.delete(t)
-      end
-
-      if flag
-        return_lst << t
-      end
-
-    end
-
-    return_dt = {
-      "count": return_lst.length,
-      "course_list": return_lst
-    }
-
-    render :json => return_dt
 
   end
 
