@@ -156,7 +156,10 @@ class CourseController < ApplicationController
       fuzzy_search_class = course_name_fuzzysearch(like_query_params['course_name_ch'])
       ch_class_name = fuzzy_search_class.map {|n| n["course_name_ch"]}
       condition['course_name_ch'] = ch_class_name.uniq
-      @fuzzy_result = Course.where(condition)
+      @fuzzy_result = Course.where("teacher LIKE ? AND general_type LIKE ? AND department LIKE ?",
+                                    like_condition["teacher"],
+                                    like_condition["general_type"],
+                                    like_condition["department"]).where(condition)
       result = {
         "count": @fuzzy_result.count,
         "course_list": @fuzzy_result.limit(params["limit"]).offset(params["offset"]),
