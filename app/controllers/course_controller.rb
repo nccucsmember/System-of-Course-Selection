@@ -146,7 +146,7 @@ class CourseController < ApplicationController
     like_query_params.each_pair {|key, value| value == nil ? like_condition[key] = '%' : like_condition[key] = "%#{value}%"}
     @return_result = Course.where("course_name_ch LIKE ? AND teacher LIKE ?", like_condition["course_name_ch"], like_condition["teacher"]).where(condition)
 
-    if @return_result.count == 0
+    if @return_result.count == 0 && like_query_params['course_name_ch'] != nil
       fuzzy_search_class = course_name_fuzzysearch(like_query_params['course_name_ch'])
       ch_class_name = fuzzy_search_class.map {|n| n["course_name_ch"]}
       condition['course_name_ch'] = ch_class_name.uniq
