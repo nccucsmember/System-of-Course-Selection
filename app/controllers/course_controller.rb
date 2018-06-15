@@ -112,8 +112,8 @@ class CourseController < ApplicationController
       #'semester'        => '1062',
       'subject_id'      => params["subject_id"],#'258733002',
       'num_semesters'   => params["num_semesters"],
-      'course_name_ch'  => params["course_name_ch"],#'賽局3',
-      'teacher'         => params["teacher"],#'何靜嫺',
+      # 'course_name_ch'  => params["course_name_ch"],#'賽局3',
+      # 'teacher'         => params["teacher"],#'何靜嫺',
       'credits'         => params["credits"],
       'weekday'         => params["weekday"],
       #'begin_time'      => '00:00:00', #TimeWithZone
@@ -126,6 +126,11 @@ class CourseController < ApplicationController
       'central_general' => params["central_general"]
     }
 
+    like_query_params = {
+      'course_name_ch'  => params["course_name_ch"],#'賽局3',
+      'teacher'         => params["teacher"],#'何靜嫺',
+    }
+
     # if specified subject_id
     if query_params['subject_id'] != nil and query_params['subject_id'] != ""
       re_lst = Course.where( :subject_id => query_params['subject_id'] )
@@ -136,20 +141,27 @@ class CourseController < ApplicationController
     re_lst = []
     condition = {}
     query_params.each_pair { |key, value| value == nil || value == []? '' : condition[key] = value}
-    if params[:course_name_ch] != nil
-      # if passing course_name_ch then using fuzzysearch result to set course_name_ch condition
-      fuzzy_search_class = course_name_fuzzysearch(query_params['course_name_ch'])
+    like_condition = {}
+    like_query_params.each_pair {|key, value| value == nil ? like_condition[key] = '%' : like_condition[key] = "%#{value}%"}
+    @return_result = Course.where("course_name_ch LIKE ? AND teacher LIKE ?", like_condition["course_name_ch"], like_condition["teacher"]).where(condition)
+
+    if @return_result.count == 0
+      fuzzy_search_class = course_name_fuzzysearch(like_query_params['course_name_ch'])
       ch_class_name = fuzzy_search_class.map {|n| n["course_name_ch"]}
       condition['course_name_ch'] = ch_class_name.uniq
+      @fuzzy_result = Course.where(condition)
+      result = {
+        "count": @fuzzy_result.count,
+        "course_list": @fuzzy_result.limit(params["limit"]).offset(params["offset"]),
+      }
+      render :json => result
+    else
+      return_dt = {
+        "count": @return_result.count,
+        "course_list": @return_result.limit(params["limit"]).offset(params["offset"]),
+      }
+      render :json => return_dt
     end
-    @return_result = Course.where(condition)
-
-    return_dt = {
-      "count": @return_result.count,
-      "course_list": @return_result.limit(params["limit"]).offset(params["offset"]),
-    }
-
-    render :json => return_dt
 
   end
 
