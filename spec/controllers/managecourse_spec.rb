@@ -43,6 +43,24 @@ RSpec.describe ManagecourseController, type: :controller do
 
     end
 
+    context "DELETE a person's past tracking" do
+
+      it "return success message" do
+
+        request.headers["Authorization"] = "#{user.authentication_token}"
+
+        track = Choose.create!( :cs_id => 'testid12121212', :course_id => 'testid', :student_id => '12121212', :is_chosen => '0' )
+
+        delete :destroy, params: { id: course.subject_id }
+
+        @success = { :message => "The course #{course.subject_id} is remove from #{user.schoolid}'s tracking list." }.to_json
+
+        expect(response.body).to be_json_eql(@success)
+
+      end
+
+    end
+
   end
 
 end

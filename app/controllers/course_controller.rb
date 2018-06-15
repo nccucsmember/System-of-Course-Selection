@@ -107,6 +107,7 @@ class CourseController < ApplicationController
   def search
 
 
+
     query_params = {
       #'course_id'       => '1351',
       #'semester'        => '1062',
