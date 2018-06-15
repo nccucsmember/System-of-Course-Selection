@@ -142,13 +142,11 @@ class CourseController < ApplicationController
       ch_class_name = fuzzy_search_class.map {|n| n["course_name_ch"]}
       condition['course_name_ch'] = ch_class_name.uniq
     end
-    @query_result = Course.where(condition)
-    @return_result = @query_result.limit(params["limit"]).offset(params["offset"])
-    re_lst = @return_result
+    @return_result = Course.where(condition)
 
     return_dt = {
-      "count": @query_result.as_json.length,
-      "course_list": re_lst
+      "count": @return_result.count,
+      "course_list": @return_result.limit(params["limit"]).offset(params["offset"]),
     }
 
     render :json => return_dt
