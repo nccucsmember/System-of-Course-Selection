@@ -123,13 +123,14 @@ class CourseController < ApplicationController
       #'department'      => '經濟碩一經濟碩二',
       'course_type'     => params["course_type"],
       'is_general'      => params["is_general"],
-      'general_type'    => params["general_type"],
       'central_general' => params["central_general"]
     }
 
     like_query_params = {
       'course_name_ch'  => params["course_name_ch"],#'賽局3',
       'teacher'         => params["teacher"],#'何靜嫺',
+      'general_type'    => params["general_type"],
+      'department'      => params["department"],
     }
 
     # if specified subject_id
@@ -143,14 +144,22 @@ class CourseController < ApplicationController
     condition = {}
     query_params.each_pair { |key, value| value == nil || value == []? '' : condition[key] = value}
     like_condition = {}
-    like_query_params.each_pair {|key, value| value == nil ? like_condition[key] = '%' : like_condition[key] = "%#{value}%"}
-    @return_result = Course.where("course_name_ch LIKE ? AND teacher LIKE ?", like_condition["course_name_ch"], like_condition["teacher"]).where(condition)
+    like_query_params.each_pair {|key, value| value == nil || value == '-1' ? like_condition[key] = '%' : like_condition[key] = "%#{value}%"}
+    @return_result =
+      Course.where("course_name_ch LIKE ? AND teacher LIKE ? AND general_type LIKE ? AND department LIKE ?",
+                   like_condition["course_name_ch"],
+                   like_condition["teacher"],
+                   like_condition["general_type"],
+                   like_condition["department"]).where(condition)
 
-    if @return_result.count == 0
+    if @return_result.count == 0 && like_query_params['course_name_ch'] != nil
       fuzzy_search_class = course_name_fuzzysearch(like_query_params['course_name_ch'])
       ch_class_name = fuzzy_search_class.map {|n| n["course_name_ch"]}
       condition['course_name_ch'] = ch_class_name.uniq
-      @fuzzy_result = Course.where(condition)
+      @fuzzy_result = Course.where("teacher LIKE ? AND general_type LIKE ? AND department LIKE ?",
+                                    like_condition["teacher"],
+                                    like_condition["general_type"],
+                                    like_condition["department"]).where(condition)
       result = {
         "count": @fuzzy_result.count,
         "course_list": @fuzzy_result.limit(params["limit"]).offset(params["offset"]),
