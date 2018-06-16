@@ -1,5 +1,29 @@
 require "matrix"
 
+$name_lst = []
+db_courses = Course.all.as_json
+$courses = []
+db_courses.each do |tuple|
+  $courses << tuple
+end
+@name_hash = Course.select(:course_name_ch).distinct
+@name_hash.each do |n|
+  $name_lst.push(n.course_name_ch)
+end
+
+# Build unique character lst
+$character_lst = []
+$name_lst.each { |word| word.split("").each { |c| $character_lst << c  } }
+$character_lst = $character_lst.uniq
+
+# Build index mapping for vsm
+counter = 0
+$index_mapping = {}
+$character_lst.each do |c|
+  $index_mapping[c] = counter
+  counter += 1
+end
+
 class CourseController < ApplicationController
 
   def sim_cosine(v1, v2)
@@ -32,45 +56,19 @@ class CourseController < ApplicationController
   end
 
   def course_name_fuzzysearch(query)
-    name_lst = []
-    db_courses = Course.all.as_json
-    courses = []
-    db_courses.each do |tuple|
-      courses << tuple
-    end
-    @name_hash = Course.select("course_name_ch").distinct
-    @name_hash.each do |n|
-      name_lst.push(n.course_name_ch)
-    end
-
-    # Build unique character lst
-    character_lst = []
-    name_lst.each { |word| word.split("").each { |c| character_lst << c  } }
-    character_lst = character_lst.uniq
-    counter = 0
-
-    # Build index mapping for vsm
-    index_mapping = {}
-    character_lst.each do |c|
-      index_mapping[c] = counter
-      counter += 1
-    end
 
     #query clean
     q = query
     printf "Original Query: %s\n", q
-    penal = corpus_penalty(q, character_lst)
+    penal = corpus_penalty(q, $character_lst)
     tmp_q = ""
-    q.split("").each {|c| if character_lst.include? c; tmp_q << c; end}
+    q.split("").each {|c| if $character_lst.include? c; tmp_q << c; end}
     q = tmp_q
-    if tmp_q == ""
-      return courses
-    end
 
-    v2 = vectorize_tf(q, character_lst, index_mapping)
+    v2 = vectorize_tf(q, $character_lst, $index_mapping)
     dt_score = {}
-    name_lst.each do |word|
-      dt_score[word] = sim_cosine(vectorize_tf(word, character_lst, index_mapping), v2) * penal
+    $name_lst.each do |word|
+      dt_score[word] = sim_cosine(vectorize_tf(word, $character_lst, $index_mapping), v2) * penal
       #printf "%s: %.6f\n", word, sim_cosine(vectorize_tf(word, character_lst, index_mapping), v2)
     end
 
@@ -81,18 +79,16 @@ class CourseController < ApplicationController
       lst_name_score.push( tmp )
     end
     re_lst = []
-    sorted_lst_name_score = lst_name_score.sort_by { |tuple| tuple[1] }.reverse
-    sorted_lst_name_score.each do |t|
+    #sorted_lst_name_score = lst_name_score.sort_by { |tuple| tuple[1] }.reverse
+    lst_name_score.each do |t|
       if t[1] > 0.45
         re_lst.push( t[0] )
         printf "%s:   %.4f\n", t[0], t[1]
-      else
-        break
       end
     end
 
     return_lst = []
-    courses.each do |tuple|
+    $courses.each do |tuple|
       if re_lst.include?( tuple['course_name_ch'] )
         #printf "%s not in tuple", tuple['course_name_ch']
         return_lst << tuple
