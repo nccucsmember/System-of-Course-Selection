@@ -150,7 +150,7 @@ class CourseController < ApplicationController
                    like_condition["course_name_ch"],
                    like_condition["teacher"],
                    like_condition["general_type"],
-                   like_condition["department"]).where(condition)
+                   like_condition["department"]).where(condition).limit(params["limit"]).offset(params["offset"])
 
     if @return_result.count == 0 && like_query_params['course_name_ch'] != nil
       fuzzy_search_class = course_name_fuzzysearch(like_query_params['course_name_ch'])
@@ -159,16 +159,16 @@ class CourseController < ApplicationController
       @fuzzy_result = Course.where("teacher LIKE ? AND general_type LIKE ? AND department LIKE ?",
                                     like_condition["teacher"],
                                     like_condition["general_type"],
-                                    like_condition["department"]).where(condition)
+                                    like_condition["department"]).where(condition).limit(params["limit"]).offset(params["offset"])
       result = {
         "count": @fuzzy_result.count,
-        "course_list": @fuzzy_result.limit(params["limit"]).offset(params["offset"]),
+        "course_list": @fuzzy_result,
       }
       render :json => result
     else
       return_dt = {
         "count": @return_result.count,
-        "course_list": @return_result.limit(params["limit"]).offset(params["offset"]),
+        "course_list": @return_result,
       }
       render :json => return_dt
     end
