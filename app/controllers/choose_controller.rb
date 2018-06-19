@@ -49,6 +49,8 @@ class ChooseController < ApplicationController
 				else
 					# put it into selected list
 					choose.is_chosen = '1'
+					max_chosen_order = Choose.where(:student_id => @user_id, :is_chosen => '1').maximum(:chosen_order)
+					choose.chosen_order = max_chosen_order + 1
 				end
 
 				choose.save
@@ -70,6 +72,36 @@ class ChooseController < ApplicationController
 
 
 	def setorder
+
+		myhash = {:order_list => params['order_list'], :auth_token => request.headers['HTTP_AUTHORIZATION']}
+
+		@user = User.find_by_authentication_token(myhash[:auth_token])
+
+		if @user
+			@user_id = @user.schoolid
+			@order_list = myhash[:order_list]
+			@selected_courses = Choose.find_by_sql([
+				'SELECT * 
+				 FROM chooses 
+				 WHERE is_chosen = 1 and student_id = ?', @user_id])
+
+			i = 0
+			@selected_courses.each {
+				|c|
+				c.chosen_order = @order_list[i]
+				c.save
+				i = i + 1
+			}
+
+			render :json =>  {:message => 'order has been set.'}
+		else
+			render :json => {:message => 'Invalid user.'}
+		end
+
+	end
+
+
+		"""
 		myhash = {:id => params['id'], :order => params['order'], :auth_token => request.headers['HTTP_AUTHORIZATION']}
 		
 		@user = User.find_by_authentication_token(myhash[:auth_token])
@@ -108,4 +140,5 @@ class ChooseController < ApplicationController
 			render :json => {:message => 'Invalid user.'}
 		end
 	end
+	"""
 end
