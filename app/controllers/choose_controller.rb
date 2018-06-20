@@ -85,11 +85,12 @@ class ChooseController < ApplicationController
 				 FROM chooses 
 				 WHERE is_chosen = 1 and student_id = ?', @user_id])
 
-			i = 0
-			@selected_courses.each {
+			i = 1
+			@order_list.each {
 				|c|
-				c.chosen_order = @order_list[i]
-				c.save
+				match = @selected_courses.find { |t| t.course_id == c }
+				match.chosen_order = i
+				match.save
 				i = i + 1
 			}
 
