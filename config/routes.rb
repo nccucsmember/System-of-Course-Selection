@@ -32,6 +32,8 @@ Rails.application.routes.draw do
   get "feature/search/:query" => "feature#search"
   get "course/search/:query" => "course#search"
 
+  match "course/search", to: "course#search", via: [:post, :options]
+
   post "choose/setorder/" => "choose#setorder"
 
   root :to => "index#main"
