@@ -88,10 +88,21 @@ class CourseController < ApplicationController
     end
 
     return_lst = []
-    $courses.each do |tuple|
-      if re_lst.include?( tuple['course_name_ch'] )
-        #printf "%s not in tuple", tuple['course_name_ch']
-        return_lst << tuple
+    condition = {}
+    condition['course_name_ch'] = re_lst
+    re_course = Course.where(condition)
+    #re_course.each do |tuple|
+      #if re_lst.include?( tuple['course_name_ch'] )
+        ##printf "%s not in tuple", tuple['course_name_ch']
+        #return_lst << tuple
+      #end
+    #end
+
+    re_lst.each do |name|
+      re_course.each do |c|
+        if c['course_name_ch'] == name
+          return_lst << c
+        end
       end
     end
 
@@ -150,15 +161,22 @@ class CourseController < ApplicationController
 
     if @return_result.count == 0 && like_query_params['course_name_ch'] != nil
       fuzzy_search_class = course_name_fuzzysearch(like_query_params['course_name_ch'])
-      ch_class_name = fuzzy_search_class.map {|n| n["course_name_ch"]}
-      condition['course_name_ch'] = ch_class_name.uniq
-      @fuzzy_result = Course.where("teacher LIKE ? AND general_type LIKE ? AND department LIKE ?",
-                                    like_condition["teacher"],
-                                    like_condition["general_type"],
-                                    like_condition["department"]).where(condition)
+      #ch_class_name = fuzzy_search_class.map {|n| n["course_name_ch"]}
+      #condition['course_name_ch'] = ch_class_name.uniq
+      #@fuzzy_result = Course.where("teacher LIKE ? AND general_type LIKE ? AND department LIKE ?",
+                                    #like_condition["teacher"],
+                                    #like_condition["general_type"],
+                                    #like_condition["department"]).where(condition)
+      length = fuzzy_search_class.length
+      #puts fuzzy_search_class
+      limits = params["limit"].to_i
+      offset = params["offset"].to_i
+      if (length - offset) < limits
+        limits = length - offset
+      end
       result = {
-        "count": @fuzzy_result.count,
-        "course_list": @fuzzy_result.limit(params["limit"]).offset(params["offset"]),
+        "count": length, # @fuzzy_result.count,
+        "course_list": fuzzy_search_class[offset, limits] #@fuzzy_result.limit(params["limit"]).offset(params["offset"]),
       }
       render :json => result
     else
