@@ -49,6 +49,8 @@ class ChooseController < ApplicationController
 				else
 					# put it into selected list
 					choose.is_chosen = '1'
+					max_chosen_order = Choose.where(:student_id => @user_id, :is_chosen => '1').maximum(:chosen_order)
+					choose.chosen_order = max_chosen_order + 1
 				end
 
 				choose.save
@@ -70,42 +72,32 @@ class ChooseController < ApplicationController
 
 
 	def setorder
-		myhash = {:id => params['id'], :order => params['order'], :auth_token => request.headers['HTTP_AUTHORIZATION']}
-		
+
+		myhash = {:order_list => params['order_list'], :auth_token => request.headers['HTTP_AUTHORIZATION']}
+
 		@user = User.find_by_authentication_token(myhash[:auth_token])
-		
+
 		if @user
 			@user_id = @user.schoolid
-			@course_id = myhash[:id]
-			@order = Integer(myhash[:order])
-
-			# check if the input order is duplicate
-			@orders = Choose.find_by_sql([
+			@order_list = myhash[:order_list]
+			@selected_courses = Choose.find_by_sql([
 				'SELECT * 
 				 FROM chooses 
 				 WHERE is_chosen = 1 and student_id = ?', @user_id])
 
-			@orders.each {
+			i = 1
+			@order_list.each {
 				|c|
-				if c.chosen_order == @order
-					render :json => {:message => 'Duplicate order'}
-					return
-				end
+				match = @selected_courses.find { |t| t.course_id == c }
+				match.chosen_order = i
+				match.save
+				i = i + 1
 			}
-			
 
-			choose = Choose.find_by(cs_id: @course_id + @user_id)
-			if choose != nil and choose.is_chosen == '1'
-				choose.chosen_order = @order
-				choose.save
-				
-				render :json => {:message => 'Order has been set.'}
-
-			else
-				render :json => {:message => 'The course is not in selected list.'}
-			end
+			render :json =>  {:message => 'order has been set.'}
 		else
 			render :json => {:message => 'Invalid user.'}
 		end
+
 	end
 end
