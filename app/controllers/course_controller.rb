@@ -79,8 +79,8 @@ class CourseController < ApplicationController
       lst_name_score.push( tmp )
     end
     re_lst = []
-    #sorted_lst_name_score = lst_name_score.sort_by { |tuple| tuple[1] }.reverse
-    lst_name_score.each do |t|
+    sorted_lst_name_score = lst_name_score.sort_by { |tuple| tuple[1] }.reverse
+    sorted_lst_name_score.each do |t|
       if t[1] > 0.45
         re_lst.push( t[0] )
         printf "%s:   %.4f\n", t[0], t[1]
