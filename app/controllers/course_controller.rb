@@ -13,7 +13,12 @@ end
 
 # Build unique character lst
 $character_lst = []
-$name_lst.each { |word| word.split("").each { |c| $character_lst << c  } }
+$name_lst.each do |word|
+  word = word.to_s
+  word.split("").each do |c|
+    $character_lst << c
+  end
+end
 $character_lst = $character_lst.uniq
 
 # Build index mapping for vsm
@@ -50,7 +55,7 @@ class CourseController < ApplicationController
   end
 
   def vectorize_tf(string, character_lst, index_mapping)
-  	tmp_vec_lst = Array.new( character_lst.size, 0 )
+    tmp_vec_lst = Array.new( character_lst.size, 0 )
   	string.split("").each { |c| tmp_vec_lst[index_mapping[c]] += 1 }
   	return Vector.elements(tmp_vec_lst)
   end
