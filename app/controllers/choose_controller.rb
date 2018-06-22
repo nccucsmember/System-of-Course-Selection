@@ -50,6 +50,9 @@ class ChooseController < ApplicationController
 					# put it into selected list
 					choose.is_chosen = '1'
 					max_chosen_order = Choose.where(:student_id => @user_id, :is_chosen => '1').maximum(:chosen_order)
+					if max_chosen_order == nil
+						max_chosen_order = 0
+					end
 					choose.chosen_order = max_chosen_order + 1
 				end
 
