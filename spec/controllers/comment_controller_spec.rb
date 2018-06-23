@@ -1,4 +1,3 @@
-# -*- coding: UTF-8 -*-
 require 'rails_helper'
 
 RSpec.describe CommentController, type: :controller do
@@ -12,8 +11,8 @@ RSpec.describe CommentController, type: :controller do
 		let(:course) { Course.create!(:course_id => "testcourseid",
 									  :semester => '1062',
 									  :subject_id => 'testid',
-									  :course_name_ch => '測試',
-									  :teacher => '測試先生',
+									  :course_name_ch => 'Test',
+									  :teacher => 'Mr.Test',
 									  :TA_id => '111') }
 		let(:comment_1) { Comment.create!(:id => 10,
 										  :content => 'It sucks.',
