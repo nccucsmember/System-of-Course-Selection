@@ -218,7 +218,7 @@ RSpec.describe CommentController, type: :controller do
 						 :num_semesters => nil}
 
 				get :score, params: {id: 'testid'}
-				@ave_score = {:score => [{'avg(comments.score)': 32.3}]}.to_json
+				@ave_score = {:score => [{'ROUND(avg(comments.score),1)': 32.3}]}.to_json
 				expect(response.body).to be_json_eql(@ave_score)
 			end
 		end
