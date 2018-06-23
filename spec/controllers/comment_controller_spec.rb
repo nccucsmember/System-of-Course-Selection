@@ -18,7 +18,7 @@ RSpec.describe CommentController, type: :controller do
 										  :content => 'It sucks.',
 										  :good => 28,
 										  :score => 10.3,
-										  :subject_id => 'testid',)}
+										  :subject_id => 'testid')}
 		let(:comment_2) { Comment.create!(:id => 11,
 										  :content => 'WTF',
 										  :good => 34,
@@ -35,7 +35,7 @@ RSpec.describe CommentController, type: :controller do
 		#							 :is_chosen => '1',
 		#							 :chosen_order => 1)}
 
-        let(:thumbup) { Thumbup.create!(:id => 5,
+    let(:thumbup) { Thumbup.create!(:id => 5,
 										:comment_id => 10,
 										:auth_token => user.authentication_token)}
 
@@ -222,24 +222,6 @@ RSpec.describe CommentController, type: :controller do
 				expect(response.body).to be_json_eql(@ave_score)
 			end
 		end
-
-
-		context "#check_thumbup" do
-			it "check comment's status" do
-
-				course
-				comment_1
-				thumbup
-
-        request.headers["Authorization"] = "#{user.authentication_token}"
-
-				get :check_thumbup, params: {comment_id: 10}
-				@msg = {:message => "#{user.schoolid} have thumbup on comment 10", :comment_status => comment_1, :have_thumbup => true}.to_json
-
-				expect(response.body).to be_json_eql(@msg)
-			end
-		end
-
 
 		context "#click_thumbup" do
 			it "click thumbup to a comment" do
