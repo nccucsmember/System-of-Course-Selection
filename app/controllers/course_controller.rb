@@ -55,6 +55,7 @@ class CourseController < ApplicationController
   end
 
   def vectorize_tf(string, character_lst, index_mapping)
+    string = string.to_s
     tmp_vec_lst = Array.new( character_lst.size, 0 )
   	string.split("").each { |c| tmp_vec_lst[index_mapping[c]] += 1 }
   	return Vector.elements(tmp_vec_lst)
@@ -73,8 +74,12 @@ class CourseController < ApplicationController
     v2 = vectorize_tf(q, $character_lst, $index_mapping)
     dt_score = {}
     $name_lst.each do |word|
-      dt_score[word] = sim_cosine(vectorize_tf(word, $character_lst, $index_mapping), v2) * penal
-      #printf "%s: %.6f\n", word, sim_cosine(vectorize_tf(word, character_lst, index_mapping), v2)
+      if word.nil?
+        next
+      else
+        dt_score[word] = sim_cosine(vectorize_tf(word, $character_lst, $index_mapping), v2) * penal
+      end
+      #printf "%s: %.6f\n", word, sim_cosine(vectorize_tf(word, $character_lst, $index_mapping), v2)
     end
 
     printf "Cleaned Query: %s\npenalty: %.5f\n\n", q, penal
