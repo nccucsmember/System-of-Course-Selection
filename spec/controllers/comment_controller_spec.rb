@@ -224,85 +224,37 @@ RSpec.describe CommentController, type: :controller do
 		end
 
 
-		context "#give_thumbup" do
-			it "give thumbup to a comment" do
+		context "#check_thumbup" do
+			it "check comment's status" do
 
 				course
 				comment_1
-				comment_2
-				comment_3
+				thumbup
 
-				com_1 = {:id => 10,
-						 :content => 'It sucks.',
-						 :good => 28,
-						 :score => 10.3,
-						 :subject_id => 'testid',
-						 :semester => '1062',
-						 :num_semesters => nil}
-				com_2 = {:id => 11,
-						 :content => 'WTF',
-						 :good => 34,
-						 :score => 7.3,
-						 :subject_id => 'testid',
-						 :semester => '1062',
-						 :num_semesters => nil}
-				com_3 = {:id => 12,
-						 :content => 'nice.',
-						 :good => 3,
-						 :score => 79.3,
-						 :subject_id => 'testid',
-						 :semester => '1062',
-						 :num_semesters => nil}
+        request.headers["Authorization"] = "#{user.authentication_token}"
 
-        		request.headers["Authorization"] = "#{user.authentication_token}"
-				put :give_thumbup, params: {id: 'testid', comment_id: 10}
-				comment_1.good += 1
-				@msg = {:message => "#{user.schoolid} thumbup on comment 10", :updated_comment => comment_1}.to_json
+				get :check_thumbup, params: {comment_id: 10}
+				@msg = {:message => "#{user.schoolid} have thumbup on comment 10", :comment_status => comment_1, :have_thumbup => true}.to_json
+
 				expect(response.body).to be_json_eql(@msg)
 			end
 		end
 
 
-		context "#remove_thumbup" do
-			it "remove a thumbup of a comment" do
+		context "#click_thumbup" do
+			it "click thumbup to a comment" do
 
 				course
 				comment_1
-				comment_2
-				comment_3
 				thumbup
 
-				com_1 = {:id => 10,
-						 :content => 'It sucks.',
-						 :good => 28,
-						 :score => 10.3,
-						 :subject_id => 'testid',
-						 :semester => '1062',
-						 :num_semesters => nil}
-				com_2 = {:id => 11,
-						 :content => 'WTF',
-						 :good => 34,
-						 :score => 7.3,
-						 :subject_id => 'testid',
-						 :semester => '1062',
-						 :num_semesters => nil}
-				com_3 = {:id => 12,
-						 :content => 'nice.',
-						 :good => 3,
-						 :score => 79.3,
-						 :subject_id => 'testid',
-						 :semester => '1062',
-						 :num_semesters => nil}
-
-        		request.headers["Authorization"] = "#{user.authentication_token}"
-				put :remove_thumbup, params: {id: 'testid', comment_id: 10}
-
+        request.headers["Authorization"] = "#{user.authentication_token}"
+				put :click_thumbup, params: {comment_id: 10}
 
 				comment_1.good -= 1
-				@msg = {:message => "remove #{user.schoolid}'s thumbup on comment 10", :updated_comment => comment_1}.to_json
+				@msg = {:message => "remove #{user.schoolid}'s thumbup on comment 10", :comment_status => comment_1}.to_json
 				expect(response.body).to be_json_eql(@msg)
 			end
 		end
 	end
 end
-
