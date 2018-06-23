@@ -13,6 +13,11 @@ RSpec.describe Course do
 								  :cs_id => 'testid34343434',
 								  :is_chosen => '0',
 								  :chosen_order => 3)}
+		let(:comment) { Comment.create!(:id => 10,
+										:content => 'It sucks.',
+										:good => 28,
+										:score => 10.3,
+										:subject_id => 'testid')}
 
 		it 'should have a course id' do
 			expect(course.course_id).not_to be_empty
@@ -31,8 +36,8 @@ RSpec.describe Course do
 		end
 
 		it "has_many chooses" do
-			#post = Post.create(:title => "title", :content => "content")
 			expect(course.chooses).to include(choose)
 		end
+
 	end
 end
