@@ -120,13 +120,30 @@ class CommentController < ApplicationController
   end
 
 
-
-
-  def give_thumbup
+  def check_thumbup
 
     myhash = {:auth_token => request.headers["HTTP_AUTHORIZATION"]}
     @user = User.find_by_authentication_token(myhash[:auth_token])
     @user_id = @user.schoolid
+
+    if @user
+      if Thumbup.find_by(auth_token:myhash[:auth_token],comment_id:params[:comment_id]) == nil
+        comment = Comment.find_by(id:params[:comment_id])
+        render :json => {:message => "#{@user_id} have not thumbup on comment #{params[:comment_id ]}" , :comment_status => comment , :have_thumbup => false}
+      else
+        comment = Comment.find_by(id:params[:comment_id])
+        render :json => {:message => "#{@user_id} have thumbup on comment #{params[:comment_id]}", :comment_status => comment , :have_thumbup => true}
+      end
+    else
+      render :json => {:message =>"Invalid user!"}
+    end
+
+  end
+
+  def click_thumbup
+      myhash = {:auth_token => request.headers["HTTP_AUTHORIZATION"]}
+      @user = User.find_by_authentication_token(myhash[:auth_token])
+      @user_id = @user.schoolid
 
     if @user
       if Thumbup.find_by(auth_token:myhash[:auth_token],comment_id:params[:comment_id]) == nil
@@ -137,32 +154,14 @@ class CommentController < ApplicationController
         comment = Comment.find_by(id:params[:comment_id])
         comment.good = comment.good + 1
         comment.save
-        render :json => {:message => "#{@user_id} thumbup on comment #{params[:comment_id ]}" , :updated_comment => comment}
+        render :json => {:message => "#{@user_id} thumbup on comment #{params[:comment_id ]}" , :comment_status => comment}
       else
-        render :json => {:message => "#{@user_id} have been thumbup comment #{params[:comment_id]}"}
-      end
-    else
-      render :json => {:message =>"Invalid user!"}
-    end
-
-  end
-
-  def remove_thumbup
-    
-    myhash = {:auth_token => request.headers["HTTP_AUTHORIZATION"]}
-    @user = User.find_by_authentication_token(myhash[:auth_token])
-    @user_id = @user.schoolid
-
-    if @user
-      if Thumbup.find_by(auth_token:myhash[:auth_token],comment_id:params[:comment_id]) != nil
-        thumbup = Thumbup.find_by(auth_token:myhash[:auth_token],comment_id:params[:comment_id])
-        thumbup.destroy
-        comment = Comment.find_by(id:params[:comment_id])
-        comment.good = comment.good - 1
-        comment.save
-        render :json => {:message => "remove #{@user_id}'s thumbup on comment #{params[:comment_id]}", :updated_comment => comment}
-      else
-        render :json => {:message => "#{@user_id} doesn't thumbup comment #{params[:comment_id]} yet"}
+          thumbup = Thumbup.find_by(auth_token:myhash[:auth_token],comment_id:params[:comment_id])
+          thumbup.destroy
+          comment = Comment.find_by(id:params[:comment_id])
+          comment.good = comment.good - 1
+          comment.save
+          render :json => {:message => "remove #{@user_id}'s thumbup on comment #{params[:comment_id]}", :comment_status => comment}
       end
     else
       render :json => {:message =>"Invalid user!"}
