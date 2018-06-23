@@ -124,16 +124,20 @@ class CommentController < ApplicationController
 
     myhash = {:auth_token => request.headers["HTTP_AUTHORIZATION"]}
     @user = User.find_by_authentication_token(myhash[:auth_token])
-    @user_id = @user.schoolid
-
+    
     if @user
-      if Thumbup.find_by(auth_token:myhash[:auth_token],comment_id:params[:comment_id]) == nil
-        comment = Comment.find_by(id:params[:comment_id])
-        render :json => {:message => "#{@user_id} have not thumbup on comment #{params[:comment_id ]}" , :comment_status => comment , :have_thumbup => false}
-      else
-        comment = Comment.find_by(id:params[:comment_id])
-        render :json => {:message => "#{@user_id} have thumbup on comment #{params[:comment_id]}", :comment_status => comment , :have_thumbup => true}
-      end
+      @user_id = @user.schoolid
+      @comment = Comment.where(:subject_id => params[:id])
+      comment = @comment.as_json
+      comment.each {
+        |c|
+        if Thumbup.find_by(auth_token:myhash[:auth_token], comment_id:c["id"]) == nil
+          c["have_thumbup"] = false
+        else
+          c["have_thumbup"] = true
+        end
+      }
+      render :json => comment
     else
       render :json => {:message =>"Invalid user!"}
     end

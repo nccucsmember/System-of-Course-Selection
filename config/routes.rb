@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   match "comment/:id/time_descent", to: "comment#time_descent", via: [:get, :options]
   match "comment/:id/score", to: "comment#score", via: [:get, :options]
   match "comment/:comment_id/click_thumbup", to: "comment#click_thumbup", via: [:put, :delete, :options]
-  match "comment/:comment_id/check_thumbup", to: "comment#check_thumbup", via: [:get, :options]
+  match "comment/:id/check_thumbup", to: "comment#check_thumbup", via: [:get, :options]
   #match "comment/:comment_id", to: "comment#remove_thumbup", via: [:delete, :options]
 
   resources :info, :controller => 'info'
