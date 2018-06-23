@@ -105,7 +105,7 @@ class CommentController < ApplicationController
       teacher_now = Course.find_by(:subject_id => params[:id]).teacher
 
       #calculate the average value of the comments of the courses which have same name and same teacher
-      score = Comment.find_by_sql(["select avg(comments.score) from comments,courses where comments.subject_id=courses.subject_id and course_name_ch=? and teacher=?",course_name_ch_now,teacher_now])
+      score = Comment.find_by_sql(["select ROUND(avg(comments.score),1) from comments,courses where comments.subject_id=courses.subject_id and course_name_ch=? and teacher=?",course_name_ch_now,teacher_now])
 
       if score==0
         render :json => {:message => "There have no Comments"}
