@@ -7,7 +7,7 @@ RSpec.describe Ta do
 			@ta = Ta.new(:TA_id => '789',
 						 :name => 'test_name',
 						 :email => 'test@test.com')
-			@course = Course.create(:course_id => 'testid',
+			@course = Course.new(:course_id => 'testid',
 									:semester => '1062',
 								    :subject_id => 'testid',
 								    :TA_id => @ta.TA_id)
